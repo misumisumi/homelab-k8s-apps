@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: traefik
+  namespace: argocd
+spec:
+  destination:
+    namespace: traefik
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k8s-apps/manifests/develop/traefik
+    repoURL: https://github.com/misumisumi/nixos-k8s-config.git
+    targetRevision: develop
+  syncPolicy: {}

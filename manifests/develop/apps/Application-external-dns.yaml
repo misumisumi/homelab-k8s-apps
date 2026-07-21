@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-dns
+  namespace: argocd
+spec:
+  destination:
+    namespace: external-dns
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k8s-apps/manifests/develop/external-dns
+    repoURL: https://github.com/misumisumi/nixos-k8s-config.git
+    targetRevision: develop
+  syncPolicy: {}

@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium
+  namespace: argocd
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k8s-apps/manifests/develop/cilium
+    repoURL: https://github.com/misumisumi/nixos-k8s-config.git
+    targetRevision: develop
+  syncPolicy: {}

@@ -1,0 +1,65 @@
+{
+    "argocd": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "argocd",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "argoproj",
+            "repo": "argo-cd",
+            "rev": "v3.4.5",
+            "sha256": "sha256-hM7ss948dr7KntUGwiFDhr1OrbI+LAJlDgUMnegm+es=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v3.4.5"
+    },
+    "cilium": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "cilium",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "cilium",
+            "repo": "cilium",
+            "rev": "v1.19.6",
+            "sha256": "sha256-dbI34NJ4yxPvKNLivQUfMEK1vAL8lOXfK8gtWiqX+L0=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v1.19.6"
+    },
+    "gateway-api": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "gateway-api",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "kubernetes-sigs",
+            "repo": "gateway-api",
+            "rev": "v1.6.1",
+            "sha256": "sha256-Hq3vaCQRSRFjya76qRYw4/BcH00Wu5wE6UQACrjKJSk=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v1.6.1"
+    }
+}
