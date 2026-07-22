@@ -41,10 +41,10 @@ in
         };
         data = [
           {
-            secretKey = "api-token";
+            secretKey = "api_token";
             remoteRef = {
               key = "cloudflare";
-              property = "api-token";
+              property = "api_token";
             };
           }
         ];
