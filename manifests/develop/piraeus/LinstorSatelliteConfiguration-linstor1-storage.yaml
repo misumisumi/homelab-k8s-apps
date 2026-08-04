@@ -1,0 +1,15 @@
+apiVersion: piraeus.io/v1
+kind: LinstorSatelliteConfiguration
+metadata:
+  name: linstor1-storage
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: linstor1
+  storagePools:
+    - lvmThinPool:
+        thinPool: thin
+        volumeGroup: piraeus-vg
+      name: hdd-pool
+      source:
+        hostDevices:
+          - /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_piraeus_diks

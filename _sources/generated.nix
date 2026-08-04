@@ -39,4 +39,15 @@
       sha256 = "sha256-Hq3vaCQRSRFjya76qRYw4/BcH00Wu5wE6UQACrjKJSk=";
     };
   };
+  piraeus-operator = {
+    pname = "piraeus-operator";
+    version = "v2.10.8";
+    src = fetchFromGitHub {
+      owner = "piraeusdatastore";
+      repo = "piraeus-operator";
+      rev = "v2.10.8";
+      fetchSubmodules = false;
+      sha256 = "sha256-/PbyUOUAzlQQSAnuyWjyap2RagPb4P6qoE5FXGhb8nI=";
+    };
+  };
 }

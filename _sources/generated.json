@@ -61,5 +61,26 @@
             "type": "github"
         },
         "version": "v1.6.1"
+    },
+    "piraeus-operator": {
+        "cargoLock": null,
+        "date": null,
+        "extract": null,
+        "name": "piraeus-operator",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "piraeusdatastore",
+            "repo": "piraeus-operator",
+            "rev": "v2.10.8",
+            "sha256": "sha256-/PbyUOUAzlQQSAnuyWjyap2RagPb4P6qoE5FXGhb8nI=",
+            "sparseCheckout": [],
+            "type": "github"
+        },
+        "version": "v2.10.8"
     }
 }

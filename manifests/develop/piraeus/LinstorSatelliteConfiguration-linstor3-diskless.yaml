@@ -1,0 +1,10 @@
+apiVersion: piraeus.io/v1
+kind: LinstorSatelliteConfiguration
+metadata:
+  name: linstor3-diskless
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: linstor3
+  properties:
+    - name: AutoplaceTarget
+      value: "no"

@@ -78,14 +78,24 @@
                 nixdyGenerators = nixidy.packages.${system}.generators;
                 extraPkgs = pkgs.callPackage ./_sources/generated.nix { };
               };
-              charts = nixhelm.chartsDerivations.${system};
+              charts = nixhelm.chartsDerivations.${system} // {
+                piraeus-operator.piraeus = pkgs.stdenv.mkDerivation {
+                  name = "piraeus-operator-chart";
+                  src = (pkgs.callPackage ./_sources/generated.nix { }).piraeus-operator.src;
+                  phases = [ "unpackPhase" "installPhase" ];
+                  installPhase = ''
+                    mkdir -p $out
+                    cp -r charts/piraeus/* $out/
+                  '';
+                };
+              };
 
               modules = [ ./modules ];
 
               envs = {
-                develop.modules = [ ./env/develop ];
-                test.modules = [ ./env/test ];
-                production.modules = [ ./env/production ];
+                develop.modules = [ ./branch/develop ];
+                test.modules = [ ./branch/test ];
+                production.modules = [ ./branch/production ];
               };
             };
           };

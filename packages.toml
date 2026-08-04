@@ -9,3 +9,7 @@ fetch.github = 'cilium/cilium'
 [gateway-api]
 src.github = 'kubernetes-sigs/gateway-api'
 fetch.github = 'kubernetes-sigs/gateway-api'
+
+[piraeus-operator]
+src.github = 'piraeusdatastore/piraeus-operator'
+fetch.github = 'piraeusdatastore/piraeus-operator'

@@ -7,6 +7,7 @@
     ./external-dns.nix
     ./external-secrets
     ./gateway-api.nix
+    ./piraeus
     ./traefik.nix
   ];
 }

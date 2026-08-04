@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: piraeus
+  namespace: argocd
+spec:
+  destination:
+    namespace: piraeus-datastore
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k8s-apps/manifests/develop/piraeus
+    repoURL: https://github.com/misumisumi/nixos-k8s-config.git
+    targetRevision: develop
+  syncPolicy: {}
