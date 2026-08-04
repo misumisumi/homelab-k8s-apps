@@ -6,7 +6,7 @@ metadata:
 spec:
   dnsNames:
     - '*.misumi-sumi.com'
-    - '*.k8s.misumi-sumi.com'
+    - '*.dev.misumi-sumi.com'
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-dns

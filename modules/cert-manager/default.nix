@@ -27,7 +27,36 @@ in
 
     resources = {
       clusterIssuers.letsencrypt-dns = importYAML ./clusterissuer.yaml;
-      certificates.wildcard-misumi-sumi-com = importYAML ./wildcard-certificate.yaml;
+
+      # secrets for cloudflare API token, fetched from vault via external-secrets
+      externalSecrets.cloudflare-api-token = {
+        apiVersion = "external-secrets.io/v1";
+        kind = "ExternalSecret";
+        metadata = {
+          name = "cloudflare-api-token";
+          namespace = "cert-manager";
+        };
+        spec = {
+          refreshInterval = "1h";
+          secretStoreRef = {
+            name = "vault-backend";
+            kind = "ClusterSecretStore";
+          };
+          target = {
+            name = "cloudflare-api-token";
+            creationPolicy = "Owner";
+          };
+          data = [
+            {
+              secretKey = "api_token";
+              remoteRef = {
+                key = "cloudflare";
+                property = "api_token";
+              };
+            }
+          ];
+        };
+      };
     };
   };
 }

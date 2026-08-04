@@ -1,4 +1,5 @@
 {
+  config,
   charts,
   lib,
   ...
@@ -29,6 +30,11 @@ in
     };
 
     resources = {
+      linstorClusters.linstorcluster = {
+        metadata.name = "linstorcluster";
+        spec.linstorPassphraseSecret = "linstor-passphrase";
+      };
+      # master passphrase secret for linstor cluster, fetched from vault via external-secrets
       externalSecrets.piraeus-master-passphrase = {
         apiVersion = "external-secrets.io/v1";
         kind = "ExternalSecret";
@@ -56,11 +62,6 @@ in
             }
           ];
         };
-      };
-
-      linstorClusters.linstorcluster = {
-        metadata.name = "linstorcluster";
-        spec.linstorPassphraseSecret = "linstor-passphrase";
       };
     };
   };

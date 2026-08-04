@@ -3,8 +3,6 @@ let
   inherit (lib) nixdyGenerators;
 in
 {
-  imports = [ ./vault-backend.nix ];
-
   nixidy.applicationImports = [
     (nixdyGenerators.fromChartCRDModule {
       name = "external-secrets";
@@ -23,6 +21,9 @@ in
     helm.releases.external-secrets = {
       chart = charts.external-secrets.external-secrets;
       values.installCRDs = true;
+    };
+
+    resources = {
     };
   };
 }

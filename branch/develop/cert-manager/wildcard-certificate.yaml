@@ -10,4 +10,4 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - "*.misumi-sumi.com"
-    - "*.k8s.misumi-sumi.com"
+    - "*.dev.misumi-sumi.com"

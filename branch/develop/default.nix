@@ -1,6 +1,10 @@
 {
   imports = [
-    ../../modules/piraeus/branch/develop.nix
+    ./argocd
+    ./cert-manager
+    ./cilium
+    ./external-secrets
+    ./piraeus-operator
   ];
 
   nixidy = {

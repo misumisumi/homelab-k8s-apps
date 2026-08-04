@@ -1,4 +1,3 @@
-{ ... }:
 let
   hddDisk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_piraeus_diks";
 

@@ -1,7 +1,7 @@
 {
   charts,
-  lib,
   generators,
+  lib,
   ...
 }:
 let
@@ -16,6 +16,7 @@ let
     "pkg/k8s/apis/cilium.io/client/crds/v2/ciliumbgppeerconfigs.yaml"
     "pkg/k8s/apis/cilium.io/client/crds/v2/ciliumclusterwidenetworkpolicies.yaml"
     "pkg/k8s/apis/cilium.io/client/crds/v2/ciliumegressgatewaypolicies.yaml"
+    "pkg/k8s/apis/cilium.io/client/crds/v2/ciliumloadbalancerippools.yaml"
     "pkg/k8s/apis/cilium.io/client/crds/v2/ciliumnetworkpolicies.yaml"
   ];
 in
@@ -29,20 +30,6 @@ in
   ];
   applications.cilium = {
     namespace = "kube-system";
-    resources = {
-      ciliumBGPAdvertisements.advertisement = importYAML ./bgp/advertisement.yaml;
-      ciliumBGPClusterConfigs.cluster = importYAML ./bgp/cluster.yaml;
-      ciliumBGPPeerConfigs.peer = importYAML ./bgp/peer.yaml;
-      ciliumClusterwideNetworkPolicies.cluster = importYAML ./network-policies/cluster.yaml;
-      gateways.public-gateway = importYAML ./hubble/gateway.yaml;
-      httpRoutes.hubble-ui = importYAML ./hubble/httproute.yaml;
-    };
-    yamls = map toJSON (
-      generators.crdObjects {
-        inherit (extraPkgs.cilium) src;
-        inherit crdFiles;
-      }
-    );
 
     helm.releases.cilium = {
       chart = charts.cilium.cilium;
@@ -50,8 +37,6 @@ in
       includeCRDs = true;
       values = {
         kubeProxyReplacement = true;
-        k8sServiceHost = "172.16.100.100";
-        k8sServicePort = 443;
         identityAllocationMode = "crd";
         hubble = {
           enabled = true;
@@ -78,5 +63,18 @@ in
         bgpControlPlane.enabled = true;
       };
     };
+
+    resources = {
+      ciliumBGPPeerConfigs.peer = importYAML ./bgp/peer.yaml;
+      ciliumClusterwideNetworkPolicies.cluster = importYAML ./network-policies/cluster.yaml;
+      gateways.public-gateway = importYAML ./hubble/gateway.yaml;
+    };
+
+    yamls = map toJSON (
+      generators.crdObjects {
+        inherit (extraPkgs.cilium) src;
+        inherit crdFiles;
+      }
+    );
   };
 }

@@ -1,13 +1,13 @@
 {
   imports = [
-    ./argocd
+    ./argocd.nix
     ./cert-manager
     ./cilium
     ./coredns.nix
     ./external-dns.nix
-    ./external-secrets
+    ./external-secrets.nix
     ./gateway-api.nix
-    ./piraeus
+    ./piraeus-operator.nix
     ./traefik.nix
   ];
 }

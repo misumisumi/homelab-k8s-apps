@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ClusterSecretStore
+metadata:
+  name: vault-backend
+spec:
+  provider:
+    vault:
+      auth:
+        kubernetes:
+          mountPath: kubernetes
+          role: external-secrets
+          serviceAccountRef:
+            name: external-secrets
+      path: secret
+      server: https://172.16.11.1:8200
+      version: v2
