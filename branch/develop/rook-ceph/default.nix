@@ -1,7 +1,13 @@
 let
-  hddDisk1 = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_ceph_disk_01";
-  hddDisk2 = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_ceph_disk_02";
-  metaDisk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_ceph_meta_disk";
+  hddDisk1 = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_ceph_disk_01";
+  hddDisk2 = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_ceph_disk_02";
+  metaDisk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_ceph_meta_disk";
+
+  cephHosts = [
+    "ceph-worker1"
+    "ceph-worker2"
+    "ceph-worker3"
+  ];
 
   cephNode = name: {
     inherit name;
@@ -29,13 +35,28 @@ in
       };
       mgr.count = 2;
       dashboard.enabled = true;
+      placement = {
+        all = {
+          nodeAffinity = {
+            requiredDuringSchedulingIgnoredDuringExecution = {
+              nodeSelectorTerms = [
+                {
+                  matchExpressions = [
+                    {
+                      key = "kubernetes.io/hostname";
+                      operator = "In";
+                      values = cephHosts;
+                    }
+                  ];
+                }
+              ];
+            };
+          };
+        };
+      };
       storage = {
         useAllNodes = false;
-        nodes = map cephNode [
-          "ceph-worker1"
-          "ceph-worker2"
-          "ceph-worker3"
-        ];
+        nodes = map cephNode cephHosts;
       };
       resources = {
         mon = {

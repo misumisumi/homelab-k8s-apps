@@ -26,7 +26,17 @@ spec:
         app.kubernetes.io/instance: piraeus-operator
         app.kubernetes.io/name: piraeus-datastore
     spec:
-      affinity: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - piraeus-worker1
+                      - piraeus-worker2
+                      - piraeus-worker3
       containers:
         - args:
             - --health-probe-bind-address=:8081

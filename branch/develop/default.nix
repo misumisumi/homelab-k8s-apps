@@ -14,7 +14,7 @@
     };
     target = {
       repository = "https://github.com/misumisumi/nixos-k8s-config.git";
-      branch = "develop";
+      branch = "refactor/k8s";
       rootPath = "k8s-apps/manifests/develop";
     };
     kube = {

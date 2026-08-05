@@ -11,5 +11,5 @@ spec:
   source:
     path: ./k8s-apps/manifests/develop/cilium
     repoURL: https://github.com/misumisumi/nixos-k8s-config.git
-    targetRevision: develop
+    targetRevision: refactor/k8s
   syncPolicy: {}
