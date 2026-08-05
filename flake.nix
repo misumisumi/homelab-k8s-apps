@@ -26,7 +26,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixhelm = {
-      url = "github:farcaller/nixhelm";
+      url = "github:nix-community/nixhelm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -82,7 +82,10 @@
                 piraeus-operator.piraeus = pkgs.stdenv.mkDerivation {
                   name = "piraeus-operator-chart";
                   src = (pkgs.callPackage ./_sources/generated.nix { }).piraeus-operator.src;
-                  phases = [ "unpackPhase" "installPhase" ];
+                  phases = [
+                    "unpackPhase"
+                    "installPhase"
+                  ];
                   installPhase = ''
                     mkdir -p $out
                     cp -r charts/piraeus/* $out/

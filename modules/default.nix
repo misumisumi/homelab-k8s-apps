@@ -8,6 +8,7 @@
     ./external-secrets.nix
     ./gateway-api.nix
     ./piraeus-operator.nix
+    ./rook-ceph
     ./traefik.nix
   ];
 }

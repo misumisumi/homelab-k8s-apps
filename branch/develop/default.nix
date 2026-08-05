@@ -5,6 +5,7 @@
     ./cilium
     ./external-secrets
     ./piraeus-operator
+    ./rook-ceph
   ];
 
   nixidy = {
