@@ -4,8 +4,10 @@
     ./cert-manager
     ./cilium
     ./external-secrets
+    ./gateway
     ./piraeus-operator
     ./rook-ceph
+    ./traefik
   ];
 
   nixidy = {

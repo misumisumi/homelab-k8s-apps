@@ -6,22 +6,22 @@ metadata:
 spec:
   gatewayClassName: traefik
   listeners:
-    - allowedRoutes:
-        namespaces:
-          from: All
-      hostname: '*.misumi-sumi.com'
-      name: https
+    - name: https
       port: 443
       protocol: HTTPS
+      hostname: "*.dev.misumi-sumi.com"
       tls:
-        certificateRefs:
-          - kind: Secret
-            name: misumi-sumi-com-tls
         mode: Terminate
-    - allowedRoutes:
+        certificateRefs:
+          - name: misumi-sumi-com-tls
+            kind: Secret
+      allowedRoutes:
         namespaces:
           from: All
-      hostname: '*.misumi-sumi.com'
-      name: http
+    - name: http
       port: 80
       protocol: HTTP
+      hostname: "*.dev.misumi-sumi.com"
+      allowedRoutes:
+        namespaces:
+          from: All

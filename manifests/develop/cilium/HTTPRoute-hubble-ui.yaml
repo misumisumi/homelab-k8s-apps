@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   hostnames:
-    - hubble.misumi-sumi.com
+    - hubble.dev.misumi-sumi.com
   parentRefs:
     - name: public-gateway
       namespace: kube-system

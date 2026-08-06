@@ -1,16 +1,16 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: argocd
+  name: traefik-dashboard
   namespace: kube-system
 spec:
   hostnames:
-    - argocd.dev.misumi-sumi.com
+    - "traefik.dev.misumi-sumi.com"
   parentRefs:
     - name: public-gateway
       namespace: kube-system
   rules:
     - backendRefs:
-        - name: argocd-server
-          namespace: argocd
-          port: 80
+        - name: traefik
+          namespace: traefik
+          port: 8080

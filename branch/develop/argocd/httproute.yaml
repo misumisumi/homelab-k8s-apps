@@ -5,7 +5,7 @@ metadata:
   namespace: kube-system
 spec:
   hostnames:
-    - "argocd.k8s.misumi-sumi.com"
+    - "argocd.dev.misumi-sumi.com"
   parentRefs:
     - name: public-gateway
       namespace: kube-system

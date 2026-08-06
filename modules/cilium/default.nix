@@ -67,7 +67,6 @@ in
     resources = {
       ciliumBGPPeerConfigs.peer = importYAML ./bgp/peer.yaml;
       ciliumClusterwideNetworkPolicies.cluster = importYAML ./network-policies/cluster.yaml;
-      gateways.public-gateway = importYAML ./hubble/gateway.yaml;
     };
 
     yamls = map toJSON (
