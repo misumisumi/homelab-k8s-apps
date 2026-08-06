@@ -7,12 +7,9 @@ spec:
     - localASN: 65300
       name: instance-65300
       peers:
-        - autoDiscovery:
-            defaultGateway:
-              addressFamily: ipv4
-            mode: DefaultGateway
-          name: peer-65200-tor
+        - name: peer-65200-tor
           peerASN: 65200
+          peerAddress: 172.16.100.5
           peerConfigRef:
             name: cilium-peer
   nodeSelector:
