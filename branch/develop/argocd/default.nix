@@ -9,7 +9,6 @@ in
       configs.cm.url = "https://argocd.dev.misumi-sumi.com";
     };
     resources = {
-      gateways.argocd-gateway = importYAML ./gateway.yaml;
       httpRoutes.argocd = importYAML ./httproute.yaml;
       referenceGrants.allow-argocd-server = importYAML ./referencegrant.yaml;
     };

@@ -7,7 +7,7 @@ spec:
   hostnames:
     - argocd.k8s.misumi-sumi.com
   parentRefs:
-    - name: argocd-gateway
+    - name: public-gateway
       namespace: kube-system
   rules:
     - backendRefs:

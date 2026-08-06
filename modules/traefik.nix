@@ -17,14 +17,18 @@
         ingressRoute.dashboard.enabled = false;
         experimental.kubernetesGateway.enabled = true;
         gateway = {
-          enabled = true;
+          enabled = false;
         };
         gatewayClass.enabled = true;
         providers = {
           kubernetesIngress.enabled = false;
           kubernetesGateway.enabled = true;
         };
-        ports.traefik.expose.default = true;
+        ports = {
+          traefik.expose.default = true;
+          web.port = 80;
+          websecure.port = 443;
+        };
       };
     };
   };
