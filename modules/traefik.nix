@@ -15,6 +15,10 @@
       values = {
         ingressClass.enabled = false;
         ingressRoute.dashboard.enabled = false;
+        api = {
+          dashboard = true;
+          insecure = true;
+        };
         experimental.kubernetesGateway.enabled = true;
         gateway = {
           enabled = false;

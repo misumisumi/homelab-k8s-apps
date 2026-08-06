@@ -40,6 +40,7 @@ spec:
             - --entryPoints.web.address=:80/tcp
             - --entryPoints.websecure.address=:443/tcp
             - --api.dashboard=true
+            - --api.insecure=true
             - --ping=true
             - --metrics.prometheus=true
             - --metrics.prometheus.entrypoint=metrics
