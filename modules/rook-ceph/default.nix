@@ -25,7 +25,7 @@ in
     helm.releases.rook-ceph = {
       chart = charts.rook-release.rook-ceph;
       values = {
-        crds.enabled = true;
+        crds.enabled = false;
         nodeSelector = {
           "role.storage" = "ceph";
         };
