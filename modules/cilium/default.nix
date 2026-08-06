@@ -61,6 +61,7 @@ in
         };
         hostFirewall.enabled = true;
         bgpControlPlane.enabled = true;
+        l2NeighDiscovery.enabled = true;
       };
     };
 
