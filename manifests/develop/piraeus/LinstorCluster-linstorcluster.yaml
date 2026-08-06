@@ -4,3 +4,5 @@ metadata:
   name: linstorcluster
 spec:
   linstorPassphraseSecret: linstor-passphrase
+  nodeSelector:
+    role.storage: piraeus

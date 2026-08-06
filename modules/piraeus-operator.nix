@@ -32,7 +32,12 @@ in
     resources = {
       linstorClusters.linstorcluster = {
         metadata.name = "linstorcluster";
-        spec.linstorPassphraseSecret = "linstor-passphrase";
+        spec = {
+          linstorPassphraseSecret = "linstor-passphrase";
+          nodeSelector = {
+            "role.storage" = "piraeus";
+          };
+        };
       };
       # master passphrase secret for linstor cluster, fetched from vault via external-secrets
       externalSecrets.piraeus-master-passphrase = {

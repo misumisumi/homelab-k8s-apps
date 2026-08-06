@@ -21,12 +21,10 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: kubernetes.io/hostname
+                - key: role.storage
                   operator: In
                   values:
-                    - ceph-worker1
-                    - ceph-worker2
-                    - ceph-worker3
+                    - ceph
   resources:
     mgr:
       limits:

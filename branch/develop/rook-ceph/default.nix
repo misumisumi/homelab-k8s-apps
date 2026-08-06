@@ -43,9 +43,9 @@ in
                 {
                   matchExpressions = [
                     {
-                      key = "kubernetes.io/hostname";
+                      key = "role.storage";
                       operator = "In";
-                      values = cephHosts;
+                      values = [ "ceph" ];
                     }
                   ];
                 }

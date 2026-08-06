@@ -26,6 +26,10 @@ in
       chart = charts.rook-release.rook-ceph;
       values = {
         crds.enabled = true;
+        csi = {
+          provisionerNodeAffinity = "role.storage=ceph";
+          pluginNodeAffinity = "role.storage=ceph";
+        };
       };
     };
 
