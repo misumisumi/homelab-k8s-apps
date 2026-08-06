@@ -12,6 +12,9 @@ spec:
       peers:
         - name: peer-65200-tor
           peerASN: 65200
-          peerAddress: "172.16.100.5"
+          autoDiscovery:
+            mode: DefaultGateway
+            defaultGateway:
+              addressFamily: ipv4
           peerConfigRef:
             name: cilium-peer
