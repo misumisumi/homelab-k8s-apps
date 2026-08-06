@@ -4,7 +4,7 @@
     ./cert-manager
     ./cilium
     ./external-secrets
-    ./gateway
+    ./gateway-api
     ./piraeus-operator
     ./rook-ceph
     ./traefik
