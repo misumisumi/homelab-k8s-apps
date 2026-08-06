@@ -9,5 +9,4 @@ spec:
     name: letsencrypt-dns
     kind: ClusterIssuer
   dnsNames:
-    - "*.misumi-sumi.com"
     - "*.dev.misumi-sumi.com"

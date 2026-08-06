@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gateway-api
+  namespace: argocd
+spec:
+  destination:
+    namespace: gateway-api
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./k8s-apps/manifests/develop/gateway-api
+    repoURL: https://github.com/misumisumi/nixos-k8s-config.git
+    targetRevision: refactor/k8s
+  syncPolicy: {}

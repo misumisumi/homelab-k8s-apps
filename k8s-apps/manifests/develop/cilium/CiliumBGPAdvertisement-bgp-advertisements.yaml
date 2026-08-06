@@ -1,0 +1,21 @@
+apiVersion: cilium.io/v2
+kind: CiliumBGPAdvertisement
+metadata:
+  labels:
+    advertise: bgp
+  name: bgp-advertisements
+spec:
+  advertisements:
+    - advertisementType: PodCIDR
+      attributes:
+        communities:
+          standard:
+            - 65200:100
+    - advertisementType: Service
+      attributes:
+        communities:
+          standard:
+            - 65200:200
+      service:
+        addresses:
+          - LoadBalancerIP

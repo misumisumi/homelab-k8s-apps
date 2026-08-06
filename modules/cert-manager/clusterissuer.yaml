@@ -4,7 +4,7 @@ metadata:
   name: letsencrypt-dns
 spec:
   acme:
-    email: s.kobayashi@misumi-sumi.com
+    email: dragon511southern+homelab@gmail.com
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-dns-account-key

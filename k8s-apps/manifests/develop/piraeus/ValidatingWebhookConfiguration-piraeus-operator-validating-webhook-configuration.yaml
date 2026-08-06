@@ -1,0 +1,122 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  labels:
+    app.kubernetes.io/component: piraeus-operator
+    app.kubernetes.io/instance: piraeus-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: piraeus-datastore
+    app.kubernetes.io/version: v2.10.8
+    helm.sh/chart: piraeus-2.10.8
+  name: piraeus-operator-validating-webhook-configuration
+webhooks:
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURrRENDQW5pZ0F3SUJBZ0lRWnIxTG5Ra2dFUEhLWXFDaGs1TWJBVEFOQmdrcWhraUc5dzBCQVFzRkFEQkIKTVQ4d1BRWURWUVFERXpad2FYSmhaWFZ6TFc5d1pYSmhkRzl5TFhkbFltaHZiMnN0YzJWeWRtbGpaUzV3YVhKaApaWFZ6TFdSaGRHRnpkRzl5WlM1emRtTXdIaGNOTWpZd09EQTFNVFF4T0RNeFdoY05Nell3T0RBeU1UUXhPRE14CldqQkJNVDh3UFFZRFZRUURFelp3YVhKaFpYVnpMVzl3WlhKaGRHOXlMWGRsWW1odmIyc3RjMlZ5ZG1salpTNXcKYVhKaFpYVnpMV1JoZEdGemRHOXlaUzV6ZG1Nd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFSwpBb0lCQVFESldCc1lRUzg3QWZFL0xjbVFuckNHNmwyN3lNM1BMREw4RTc5TFFpbnRkby9KankxcE8yRmx2TVRsCjZoRGZ1eDc2cFY0bklmVjlaSzR5NmtVWENCblBuWmdQTXp6M3ViS0lMbmwrQUFydFJsTkwybVpmN1RJTll1U1YKbXBabG0zSlArMkd0b0NzaFhpUUttbjBCdThqdEphdzRWcGkyM08raEZ3Vlo4YnZSdnlRSkdiSlFNTlE1d3BKYwpubkFSSDFhRjAyWGhNT0Y1RS9rb3RYWGttMENvUWYvS0JzREorR2VSSkxUK2RheWtCVzFKZVhqaERGbkFIanU4CnV1ZFNrbUppL0hZYk02MUU0VVZmUWpHRHJ1b1haNDZHNzJ6QUhkaGtuU0hXVjNqd2RodFNTVWZTTUhlc3I4ck4KOVZyektpaVBCdzBuOE04dW5ZVU5QNzI0NTZKM0FnTUJBQUdqZ1lNd2dZQXdEZ1lEVlIwUEFRSC9CQVFEQWdXZwpNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNRUVHCkExVWRFUVE2TURpQ05uQnBjbUZsZFhNdGIzQmxjbUYwYjNJdGQyVmlhRzl2YXkxelpYSjJhV05sTG5CcGNtRmwKZFhNdFpHRjBZWE4wYjNKbExuTjJZekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBSFZjVkx5aEdRMUJiZHVlUQpBVjZUNDg5a1lRSEtWdzgzNU9zVS82SnUvdTVnZFU5TVQ5R2s4S05IS2F0WE5DNVFKei8zYXY0SjlVWStXeHhYCjFienA5bWhkV2dZY243NnZyTUR5T3Z0QkdaV2pHT0U2NTh5RmRoaVl3dTI4SWVvWHVLMEE4NG93OS9RcjVBalMKSUZWTUZJR2xaYVlRQ2R2dVlZcXV6dlFiU1JuL1VKOEUrWGJZNHNFei9JZ3JicUx6OWpjM29rbEh1aG1oYlRkVQpaSDRkYWpCNlNHWG16dkgwVkRSNG1pVExaNFQ2a0o5NGRnbktHOWptYjZlZnVrc3pJaW9rcWNVN20zci9GcVRLCnFqbzRtdm1ud0ZMK1pWOGdiRGhQUDgyS2VjeTJHRHdkbWN6MEpJVGdyM29zTVpSck5MYnN4ejVpNDE4WEUrWngKK3FFL2JnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+      service:
+        name: piraeus-operator-webhook-service
+        namespace: piraeus-datastore
+        path: /validate-piraeus-io-v1-linstorcluster
+    failurePolicy: Fail
+    name: vlinstorcluster.kb.io
+    rules:
+      - apiGroups:
+          - piraeus.io
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - linstorclusters
+    sideEffects: None
+    timeoutSeconds: 2
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURrRENDQW5pZ0F3SUJBZ0lRWnIxTG5Ra2dFUEhLWXFDaGs1TWJBVEFOQmdrcWhraUc5dzBCQVFzRkFEQkIKTVQ4d1BRWURWUVFERXpad2FYSmhaWFZ6TFc5d1pYSmhkRzl5TFhkbFltaHZiMnN0YzJWeWRtbGpaUzV3YVhKaApaWFZ6TFdSaGRHRnpkRzl5WlM1emRtTXdIaGNOTWpZd09EQTFNVFF4T0RNeFdoY05Nell3T0RBeU1UUXhPRE14CldqQkJNVDh3UFFZRFZRUURFelp3YVhKaFpYVnpMVzl3WlhKaGRHOXlMWGRsWW1odmIyc3RjMlZ5ZG1salpTNXcKYVhKaFpYVnpMV1JoZEdGemRHOXlaUzV6ZG1Nd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFSwpBb0lCQVFESldCc1lRUzg3QWZFL0xjbVFuckNHNmwyN3lNM1BMREw4RTc5TFFpbnRkby9KankxcE8yRmx2TVRsCjZoRGZ1eDc2cFY0bklmVjlaSzR5NmtVWENCblBuWmdQTXp6M3ViS0lMbmwrQUFydFJsTkwybVpmN1RJTll1U1YKbXBabG0zSlArMkd0b0NzaFhpUUttbjBCdThqdEphdzRWcGkyM08raEZ3Vlo4YnZSdnlRSkdiSlFNTlE1d3BKYwpubkFSSDFhRjAyWGhNT0Y1RS9rb3RYWGttMENvUWYvS0JzREorR2VSSkxUK2RheWtCVzFKZVhqaERGbkFIanU4CnV1ZFNrbUppL0hZYk02MUU0VVZmUWpHRHJ1b1haNDZHNzJ6QUhkaGtuU0hXVjNqd2RodFNTVWZTTUhlc3I4ck4KOVZyektpaVBCdzBuOE04dW5ZVU5QNzI0NTZKM0FnTUJBQUdqZ1lNd2dZQXdEZ1lEVlIwUEFRSC9CQVFEQWdXZwpNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNRUVHCkExVWRFUVE2TURpQ05uQnBjbUZsZFhNdGIzQmxjbUYwYjNJdGQyVmlhRzl2YXkxelpYSjJhV05sTG5CcGNtRmwKZFhNdFpHRjBZWE4wYjNKbExuTjJZekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBSFZjVkx5aEdRMUJiZHVlUQpBVjZUNDg5a1lRSEtWdzgzNU9zVS82SnUvdTVnZFU5TVQ5R2s4S05IS2F0WE5DNVFKei8zYXY0SjlVWStXeHhYCjFienA5bWhkV2dZY243NnZyTUR5T3Z0QkdaV2pHT0U2NTh5RmRoaVl3dTI4SWVvWHVLMEE4NG93OS9RcjVBalMKSUZWTUZJR2xaYVlRQ2R2dVlZcXV6dlFiU1JuL1VKOEUrWGJZNHNFei9JZ3JicUx6OWpjM29rbEh1aG1oYlRkVQpaSDRkYWpCNlNHWG16dkgwVkRSNG1pVExaNFQ2a0o5NGRnbktHOWptYjZlZnVrc3pJaW9rcWNVN20zci9GcVRLCnFqbzRtdm1ud0ZMK1pWOGdiRGhQUDgyS2VjeTJHRHdkbWN6MEpJVGdyM29zTVpSck5MYnN4ejVpNDE4WEUrWngKK3FFL2JnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+      service:
+        name: piraeus-operator-webhook-service
+        namespace: piraeus-datastore
+        path: /validate-piraeus-io-v1-linstornodeconnection
+    failurePolicy: Fail
+    name: vlinstornodeconnection.kb.io
+    rules:
+      - apiGroups:
+          - piraeus.io
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - linstornodeconnections
+    sideEffects: None
+    timeoutSeconds: 2
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURrRENDQW5pZ0F3SUJBZ0lRWnIxTG5Ra2dFUEhLWXFDaGs1TWJBVEFOQmdrcWhraUc5dzBCQVFzRkFEQkIKTVQ4d1BRWURWUVFERXpad2FYSmhaWFZ6TFc5d1pYSmhkRzl5TFhkbFltaHZiMnN0YzJWeWRtbGpaUzV3YVhKaApaWFZ6TFdSaGRHRnpkRzl5WlM1emRtTXdIaGNOTWpZd09EQTFNVFF4T0RNeFdoY05Nell3T0RBeU1UUXhPRE14CldqQkJNVDh3UFFZRFZRUURFelp3YVhKaFpYVnpMVzl3WlhKaGRHOXlMWGRsWW1odmIyc3RjMlZ5ZG1salpTNXcKYVhKaFpYVnpMV1JoZEdGemRHOXlaUzV6ZG1Nd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFSwpBb0lCQVFESldCc1lRUzg3QWZFL0xjbVFuckNHNmwyN3lNM1BMREw4RTc5TFFpbnRkby9KankxcE8yRmx2TVRsCjZoRGZ1eDc2cFY0bklmVjlaSzR5NmtVWENCblBuWmdQTXp6M3ViS0lMbmwrQUFydFJsTkwybVpmN1RJTll1U1YKbXBabG0zSlArMkd0b0NzaFhpUUttbjBCdThqdEphdzRWcGkyM08raEZ3Vlo4YnZSdnlRSkdiSlFNTlE1d3BKYwpubkFSSDFhRjAyWGhNT0Y1RS9rb3RYWGttMENvUWYvS0JzREorR2VSSkxUK2RheWtCVzFKZVhqaERGbkFIanU4CnV1ZFNrbUppL0hZYk02MUU0VVZmUWpHRHJ1b1haNDZHNzJ6QUhkaGtuU0hXVjNqd2RodFNTVWZTTUhlc3I4ck4KOVZyektpaVBCdzBuOE04dW5ZVU5QNzI0NTZKM0FnTUJBQUdqZ1lNd2dZQXdEZ1lEVlIwUEFRSC9CQVFEQWdXZwpNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNRUVHCkExVWRFUVE2TURpQ05uQnBjbUZsZFhNdGIzQmxjbUYwYjNJdGQyVmlhRzl2YXkxelpYSjJhV05sTG5CcGNtRmwKZFhNdFpHRjBZWE4wYjNKbExuTjJZekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBSFZjVkx5aEdRMUJiZHVlUQpBVjZUNDg5a1lRSEtWdzgzNU9zVS82SnUvdTVnZFU5TVQ5R2s4S05IS2F0WE5DNVFKei8zYXY0SjlVWStXeHhYCjFienA5bWhkV2dZY243NnZyTUR5T3Z0QkdaV2pHT0U2NTh5RmRoaVl3dTI4SWVvWHVLMEE4NG93OS9RcjVBalMKSUZWTUZJR2xaYVlRQ2R2dVlZcXV6dlFiU1JuL1VKOEUrWGJZNHNFei9JZ3JicUx6OWpjM29rbEh1aG1oYlRkVQpaSDRkYWpCNlNHWG16dkgwVkRSNG1pVExaNFQ2a0o5NGRnbktHOWptYjZlZnVrc3pJaW9rcWNVN20zci9GcVRLCnFqbzRtdm1ud0ZMK1pWOGdiRGhQUDgyS2VjeTJHRHdkbWN6MEpJVGdyM29zTVpSck5MYnN4ejVpNDE4WEUrWngKK3FFL2JnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+      service:
+        name: piraeus-operator-webhook-service
+        namespace: piraeus-datastore
+        path: /validate-piraeus-io-v1-linstorsatellite
+    failurePolicy: Fail
+    name: vlinstorsatellite.kb.io
+    rules:
+      - apiGroups:
+          - piraeus.io
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - linstorsatellites
+    sideEffects: None
+    timeoutSeconds: 2
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURrRENDQW5pZ0F3SUJBZ0lRWnIxTG5Ra2dFUEhLWXFDaGs1TWJBVEFOQmdrcWhraUc5dzBCQVFzRkFEQkIKTVQ4d1BRWURWUVFERXpad2FYSmhaWFZ6TFc5d1pYSmhkRzl5TFhkbFltaHZiMnN0YzJWeWRtbGpaUzV3YVhKaApaWFZ6TFdSaGRHRnpkRzl5WlM1emRtTXdIaGNOTWpZd09EQTFNVFF4T0RNeFdoY05Nell3T0RBeU1UUXhPRE14CldqQkJNVDh3UFFZRFZRUURFelp3YVhKaFpYVnpMVzl3WlhKaGRHOXlMWGRsWW1odmIyc3RjMlZ5ZG1salpTNXcKYVhKaFpYVnpMV1JoZEdGemRHOXlaUzV6ZG1Nd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFSwpBb0lCQVFESldCc1lRUzg3QWZFL0xjbVFuckNHNmwyN3lNM1BMREw4RTc5TFFpbnRkby9KankxcE8yRmx2TVRsCjZoRGZ1eDc2cFY0bklmVjlaSzR5NmtVWENCblBuWmdQTXp6M3ViS0lMbmwrQUFydFJsTkwybVpmN1RJTll1U1YKbXBabG0zSlArMkd0b0NzaFhpUUttbjBCdThqdEphdzRWcGkyM08raEZ3Vlo4YnZSdnlRSkdiSlFNTlE1d3BKYwpubkFSSDFhRjAyWGhNT0Y1RS9rb3RYWGttMENvUWYvS0JzREorR2VSSkxUK2RheWtCVzFKZVhqaERGbkFIanU4CnV1ZFNrbUppL0hZYk02MUU0VVZmUWpHRHJ1b1haNDZHNzJ6QUhkaGtuU0hXVjNqd2RodFNTVWZTTUhlc3I4ck4KOVZyektpaVBCdzBuOE04dW5ZVU5QNzI0NTZKM0FnTUJBQUdqZ1lNd2dZQXdEZ1lEVlIwUEFRSC9CQVFEQWdXZwpNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNRUVHCkExVWRFUVE2TURpQ05uQnBjbUZsZFhNdGIzQmxjbUYwYjNJdGQyVmlhRzl2YXkxelpYSjJhV05sTG5CcGNtRmwKZFhNdFpHRjBZWE4wYjNKbExuTjJZekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBSFZjVkx5aEdRMUJiZHVlUQpBVjZUNDg5a1lRSEtWdzgzNU9zVS82SnUvdTVnZFU5TVQ5R2s4S05IS2F0WE5DNVFKei8zYXY0SjlVWStXeHhYCjFienA5bWhkV2dZY243NnZyTUR5T3Z0QkdaV2pHT0U2NTh5RmRoaVl3dTI4SWVvWHVLMEE4NG93OS9RcjVBalMKSUZWTUZJR2xaYVlRQ2R2dVlZcXV6dlFiU1JuL1VKOEUrWGJZNHNFei9JZ3JicUx6OWpjM29rbEh1aG1oYlRkVQpaSDRkYWpCNlNHWG16dkgwVkRSNG1pVExaNFQ2a0o5NGRnbktHOWptYjZlZnVrc3pJaW9rcWNVN20zci9GcVRLCnFqbzRtdm1ud0ZMK1pWOGdiRGhQUDgyS2VjeTJHRHdkbWN6MEpJVGdyM29zTVpSck5MYnN4ejVpNDE4WEUrWngKK3FFL2JnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+      service:
+        name: piraeus-operator-webhook-service
+        namespace: piraeus-datastore
+        path: /validate-piraeus-io-v1-linstorsatelliteconfiguration
+    failurePolicy: Fail
+    name: vlinstorsatelliteconfiguration.kb.io
+    rules:
+      - apiGroups:
+          - piraeus.io
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - linstorsatelliteconfigurations
+    sideEffects: None
+    timeoutSeconds: 2
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURrRENDQW5pZ0F3SUJBZ0lRWnIxTG5Ra2dFUEhLWXFDaGs1TWJBVEFOQmdrcWhraUc5dzBCQVFzRkFEQkIKTVQ4d1BRWURWUVFERXpad2FYSmhaWFZ6TFc5d1pYSmhkRzl5TFhkbFltaHZiMnN0YzJWeWRtbGpaUzV3YVhKaApaWFZ6TFdSaGRHRnpkRzl5WlM1emRtTXdIaGNOTWpZd09EQTFNVFF4T0RNeFdoY05Nell3T0RBeU1UUXhPRE14CldqQkJNVDh3UFFZRFZRUURFelp3YVhKaFpYVnpMVzl3WlhKaGRHOXlMWGRsWW1odmIyc3RjMlZ5ZG1salpTNXcKYVhKaFpYVnpMV1JoZEdGemRHOXlaUzV6ZG1Nd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFSwpBb0lCQVFESldCc1lRUzg3QWZFL0xjbVFuckNHNmwyN3lNM1BMREw4RTc5TFFpbnRkby9KankxcE8yRmx2TVRsCjZoRGZ1eDc2cFY0bklmVjlaSzR5NmtVWENCblBuWmdQTXp6M3ViS0lMbmwrQUFydFJsTkwybVpmN1RJTll1U1YKbXBabG0zSlArMkd0b0NzaFhpUUttbjBCdThqdEphdzRWcGkyM08raEZ3Vlo4YnZSdnlRSkdiSlFNTlE1d3BKYwpubkFSSDFhRjAyWGhNT0Y1RS9rb3RYWGttMENvUWYvS0JzREorR2VSSkxUK2RheWtCVzFKZVhqaERGbkFIanU4CnV1ZFNrbUppL0hZYk02MUU0VVZmUWpHRHJ1b1haNDZHNzJ6QUhkaGtuU0hXVjNqd2RodFNTVWZTTUhlc3I4ck4KOVZyektpaVBCdzBuOE04dW5ZVU5QNzI0NTZKM0FnTUJBQUdqZ1lNd2dZQXdEZ1lEVlIwUEFRSC9CQVFEQWdXZwpNQjBHQTFVZEpRUVdNQlFHQ0NzR0FRVUZCd01CQmdnckJnRUZCUWNEQWpBTUJnTlZIUk1CQWY4RUFqQUFNRUVHCkExVWRFUVE2TURpQ05uQnBjbUZsZFhNdGIzQmxjbUYwYjNJdGQyVmlhRzl2YXkxelpYSjJhV05sTG5CcGNtRmwKZFhNdFpHRjBZWE4wYjNKbExuTjJZekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBSFZjVkx5aEdRMUJiZHVlUQpBVjZUNDg5a1lRSEtWdzgzNU9zVS82SnUvdTVnZFU5TVQ5R2s4S05IS2F0WE5DNVFKei8zYXY0SjlVWStXeHhYCjFienA5bWhkV2dZY243NnZyTUR5T3Z0QkdaV2pHT0U2NTh5RmRoaVl3dTI4SWVvWHVLMEE4NG93OS9RcjVBalMKSUZWTUZJR2xaYVlRQ2R2dVlZcXV6dlFiU1JuL1VKOEUrWGJZNHNFei9JZ3JicUx6OWpjM29rbEh1aG1oYlRkVQpaSDRkYWpCNlNHWG16dkgwVkRSNG1pVExaNFQ2a0o5NGRnbktHOWptYjZlZnVrc3pJaW9rcWNVN20zci9GcVRLCnFqbzRtdm1ud0ZMK1pWOGdiRGhQUDgyS2VjeTJHRHdkbWN6MEpJVGdyM29zTVpSck5MYnN4ejVpNDE4WEUrWngKK3FFL2JnPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+      service:
+        name: piraeus-operator-webhook-service
+        namespace: piraeus-datastore
+        path: /validate-storage-k8s-io-v1-storageclass
+    failurePolicy: Fail
+    name: vstorageclass.kb.io
+    rules:
+      - apiGroups:
+          - storage.k8s.io
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - storageclasses
+    sideEffects: None
+    timeoutSeconds: 2
