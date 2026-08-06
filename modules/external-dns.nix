@@ -39,7 +39,7 @@
         policy = "sync";
         extraArgs = [
           "--pdns-server=http://172.16.1.2:8081"
-          "--pdns-api-key=hogehoge"
+          "--pdns-api-key=HogeHoge"
         ];
       };
     };

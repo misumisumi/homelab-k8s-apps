@@ -36,7 +36,7 @@ spec:
             - --txt-owner-id=home-k8s-cluster
             - --provider=pdns
             - --pdns-server=http://172.16.1.2:8081
-            - --pdns-api-key=hogehoge
+            - --pdns-api-key=HogeHoge
           image: registry.k8s.io/external-dns/external-dns:v0.21.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
