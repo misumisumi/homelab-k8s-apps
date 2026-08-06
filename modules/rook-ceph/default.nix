@@ -26,6 +26,9 @@ in
       chart = charts.rook-release.rook-ceph;
       values = {
         crds.enabled = true;
+        nodeSelector = {
+          "role.storage" = "ceph";
+        };
         csi = {
           provisionerNodeAffinity = "role.storage=ceph";
           pluginNodeAffinity = "role.storage=ceph";

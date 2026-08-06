@@ -76,6 +76,8 @@ spec:
               name: rook-config
             - mountPath: /etc/ceph
               name: default-config-dir
+      nodeSelector:
+        role.storage: ceph
       serviceAccountName: rook-ceph-system
       tolerations:
         - effect: NoExecute
