@@ -21,7 +21,9 @@ let
   };
 in
 {
-  applications.rook-ceph.resources.cephClusters.rook-ceph = {
+  applications.rook-ceph = {
+    syncPolicy.syncOptions.serverSideApply = true;
+    resources.cephClusters.rook-ceph = {
     metadata.name = "rook-ceph";
     spec = {
       cephVersion = {
@@ -91,5 +93,6 @@ in
         };
       };
     };
+  };
   };
 }

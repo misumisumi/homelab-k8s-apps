@@ -12,4 +12,6 @@ spec:
     path: ./k8s-apps/manifests/develop/rook-ceph
     repoURL: https://github.com/misumisumi/nixos-k8s-config.git
     targetRevision: refactor/k8s
-  syncPolicy: {}
+  syncPolicy:
+    syncOptions:
+      - ServerSideApply=true
