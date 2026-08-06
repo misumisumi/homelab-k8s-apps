@@ -16,6 +16,10 @@ spec:
         communities:
           standard:
             - 65200:200
+      selector:
+        matchExpressions:
+          - key: cilium.io/bgp-skip
+            operator: DoesNotExist
       service:
         addresses:
           - LoadBalancerIP

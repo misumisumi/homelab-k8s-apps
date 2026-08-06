@@ -12,6 +12,10 @@ spec:
           standard:
             - "65200:100"
     - advertisementType: Service
+      selector:
+        matchExpressions:
+          - key: cilium.io/bgp-skip
+            operator: DoesNotExist
       service:
         addresses:
           - LoadBalancerIP
