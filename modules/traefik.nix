@@ -24,6 +24,9 @@
           enabled = false;
         };
         gatewayClass.enabled = true;
+        nodeSelector = {
+          "role.worker" = "app";
+        };
         providers = {
           kubernetesIngress.enabled = false;
           kubernetesGateway.enabled = true;

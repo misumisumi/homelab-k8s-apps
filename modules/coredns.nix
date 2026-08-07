@@ -19,6 +19,9 @@
           create = true;
           name = "coredns";
         };
+        nodeSelector = {
+          "role.worker" = "app";
+        };
         rbac.create = true;
       };
     };

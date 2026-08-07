@@ -25,13 +25,13 @@ in
     helm.releases.rook-ceph = {
       chart = charts.rook-release.rook-ceph;
       values = {
-        crds.enabled = false;
+        crds.enabled = true;
         nodeSelector = {
-          "role.storage" = "ceph";
+          "role.worker" = "ceph";
         };
         csi = {
-          provisionerNodeAffinity = "role.storage=ceph";
-          pluginNodeAffinity = "role.storage=ceph";
+          provisionerNodeAffinity = "role.worker=ceph";
+          pluginNodeAffinity = "role.worker=ceph";
         };
       };
     };

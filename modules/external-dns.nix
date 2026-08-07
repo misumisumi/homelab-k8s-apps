@@ -11,6 +11,9 @@
           create = true;
           name = "external-dns";
         };
+        nodeSelector = {
+          "role.worker" = "app";
+        };
         rbac = {
           create = true;
           additionalRules = {

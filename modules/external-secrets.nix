@@ -20,7 +20,12 @@ in
 
     helm.releases.external-secrets = {
       chart = charts.external-secrets.external-secrets;
-      values.installCRDs = true;
+      values = {
+        installCRDs = true;
+        nodeSelector = {
+          "role.worker" = "app";
+        };
+      };
     };
 
     resources = {

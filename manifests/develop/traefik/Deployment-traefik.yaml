@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/instance: traefik-traefik
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: traefik
-    helm.sh/chart: traefik-40.2.0
+    helm.sh/chart: traefik-41.1.1
   name: traefik
   namespace: traefik
 spec:
@@ -30,7 +30,7 @@ spec:
         app.kubernetes.io/instance: traefik-traefik
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/name: traefik
-        helm.sh/chart: traefik-40.2.0
+        helm.sh/chart: traefik-41.1.1
     spec:
       automountServiceAccountToken: true
       containers:
@@ -63,7 +63,7 @@ spec:
                   fieldPath: metadata.namespace
             - name: USER
               value: traefik
-          image: docker.io/traefik:v3.7.1
+          image: docker.io/traefik:v3.7.9
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -111,6 +111,8 @@ spec:
             - mountPath: /tmp
               name: tmp
       hostNetwork: false
+      nodeSelector:
+        role.worker: app
       securityContext:
         runAsGroup: 65532
         runAsNonRoot: true

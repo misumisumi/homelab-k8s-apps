@@ -45,7 +45,7 @@ in
                 {
                   matchExpressions = [
                     {
-                      key = "role.storage";
+                      key = "role.worker";
                       operator = "In";
                       values = [ "ceph" ];
                     }

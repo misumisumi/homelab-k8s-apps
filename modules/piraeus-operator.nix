@@ -35,7 +35,7 @@ in
         spec = {
           linstorPassphraseSecret = "linstor-passphrase";
           nodeSelector = {
-            "role.storage" = "piraeus";
+            "role.worker" = "piraeus";
           };
         };
       };

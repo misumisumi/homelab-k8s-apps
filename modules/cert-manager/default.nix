@@ -25,6 +25,9 @@ in
       chart = charts.jetstack.cert-manager;
       values = {
         crds.enabled = true;
+        nodeSelector = {
+          "role.worker" = "app";
+        };
       };
     };
 
