@@ -71,6 +71,7 @@ spec:
       dnsPolicy: ClusterFirst
       nodeSelector:
         kubernetes.io/os: linux
+        role.worker: app
       securityContext:
         runAsNonRoot: true
         runAsUser: 999

@@ -18,7 +18,7 @@
         configs.params."server.insecure" = true;
         # Disable built-in ingress
         server.ingress.enabled = false;
-        nodeSelector = {
+        global.nodeSelector = {
           "role.worker" = "app";
         };
       };

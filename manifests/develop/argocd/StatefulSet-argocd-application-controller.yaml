@@ -369,6 +369,7 @@ spec:
       dnsPolicy: ClusterFirst
       nodeSelector:
         kubernetes.io/os: linux
+        role.worker: app
       serviceAccountName: argocd-application-controller
       terminationGracePeriodSeconds: 30
       volumes:
