@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: grafana
+  namespace: kube-system
+spec:
+  hostnames:
+    - grafana.dev.misumi-sumi.com
+  parentRefs:
+    - name: public-gateway
+      namespace: kube-system
+  rules:
+    - backendRefs:
+        - name: kube-prometheus-stack-grafana
+          namespace: monitoring
+          port: 80

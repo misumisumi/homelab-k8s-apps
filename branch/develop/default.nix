@@ -7,6 +7,7 @@
     ./external-secrets
     ./gateway-api
     ./piraeus-operator
+    ./prometheus
     ./rook-ceph
     ./traefik
   ];
