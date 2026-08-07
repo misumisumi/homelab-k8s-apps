@@ -8,7 +8,7 @@
     ./external-secrets.nix
     ./gateway-api.nix
     ./piraeus-operator.nix
-    ./prometheus.nix
+    ./prometheus
     ./rook-ceph
     ./traefik.nix
   ];
