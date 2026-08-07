@@ -21,6 +21,9 @@
         global.nodeSelector = {
           "role.worker" = "app";
         };
+        # 巨大CRD (ApplicationSet等) がclient-side applyのアノテーション上限(256KB)を超えるため、
+        # 全アプリでServerSideApplyを使用する
+        configs.cm."application.syncOptions" = "ServerSideApply=true,ClientSideApplyMigration=false";
       };
     };
   };

@@ -3,6 +3,7 @@ data:
   admin.enabled: "true"
   application.instanceLabelKey: argocd.argoproj.io/instance
   application.sync.impersonation.enabled: "false"
+  application.syncOptions: ServerSideApply=true,ClientSideApplyMigration=false
   exec.enabled: "false"
   resource.customizations.ignoreResourceUpdates.ConfigMap: |
     jqPathExpressions:
