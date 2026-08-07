@@ -19,6 +19,16 @@ in
 {
   applications.rook-ceph = {
     syncPolicy.syncOptions.serverSideApply = true;
+    resources.configMaps.rook-config-override = {
+      metadata = {
+        name = "rook-config-override";
+        namespace = "rook-ceph";
+      };
+      data.config = ''
+        [global]
+        auth_allow_insecure_global_id_reclaim = false
+      '';
+    };
     resources.cephClusters.rook-ceph = {
     metadata.name = "rook-ceph";
     spec = {
