@@ -54,6 +54,17 @@ in
           }
         ];
       };
+      # Force server-side apply on the large CRDs to avoid the 256KB
+      # last-applied-configuration annotation limit. The global
+      # ServerSideApply sync option does not apply to CRDs.
+      customResourceDefinitions = {
+        "clustersecretstores.external-secrets.io" = {
+          metadata.annotations."argocd.argoproj.io/sync-options" = lib.mkForce "ServerSideApply=true";
+        };
+        "secretstores.external-secrets.io" = {
+          metadata.annotations."argocd.argoproj.io/sync-options" = lib.mkForce "ServerSideApply=true";
+        };
+      };
     };
   };
 }
