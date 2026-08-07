@@ -22,8 +22,9 @@
           "role.worker" = "app";
         };
         # 巨大CRD (ApplicationSet等) がclient-side applyのアノテーション上限(256KB)を超えるため、
-        # 全アプリでServerSideApplyを使用する
-        configs.cm."application.syncOptions" = "ServerSideApply=true,ClientSideApplyMigration=false";
+        # 全アプリでServerSideApplyを使用する。
+        # ArgoCD 3.3.2以降では ClientSideApplyMigration=false は不要(一時的な回避策)なので設定しない。
+        configs.cm."application.syncOptions" = "ServerSideApply=true";
       };
     };
   };
