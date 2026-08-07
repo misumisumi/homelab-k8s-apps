@@ -1,0 +1,12 @@
+apiVersion: piraeus.io/v1
+kind: LinstorSatelliteConfiguration
+metadata:
+  name: skip-drbd-module-loader
+spec:
+  podTemplate:
+    spec:
+      initContainers:
+        - env:
+            - name: LB_HOW
+              value: deps_only
+          name: drbd-module-loader
