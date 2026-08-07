@@ -11,8 +11,8 @@
       chart = charts.argoproj.argo-cd;
 
       values = {
-        # No SSO for homelab
-        dex.enabled = false;
+        # SSO via bundled Dex (GitHub connector configured in configs.cm."dex.config")
+        dex.enabled = true;
         notifications.enabled = false;
         # TLS terminated by Gateway, so insecure at ArgoCD level
         configs.params."server.insecure" = true;
