@@ -13,8 +13,5 @@
       branch = "test";
       rootPath = "./manifests/test";
     };
-    kube = {
-      configPath = "/home/sumi/Workspace/nix/server/nixos-k8s-config/nix/k8s/secrets/test/kubeconfig";
-    };
   };
 }

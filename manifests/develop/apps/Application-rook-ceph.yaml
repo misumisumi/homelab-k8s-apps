@@ -9,9 +9,9 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ./k8s-apps/manifests/develop/rook-ceph
-    repoURL: https://github.com/misumisumi/nixos-k8s-config.git
-    targetRevision: refactor/k8s
+    path: ./manifests/develop/rook-ceph
+    repoURL: https://github.com/misumisumi/homelab-k8s-apps.git
+    targetRevision: develop
   syncPolicy:
     syncOptions:
       - ServerSideApply=true

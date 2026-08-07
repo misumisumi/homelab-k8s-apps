@@ -13,16 +13,16 @@
 
   inputs = {
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
     flake-parts.url = "github:hercules-ci/flake-parts";
+    flake-root.url = "github:srid/flake-root";
     devshell = {
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixidy = {
-      # url = "github:arnarg/nixidy";
-      url = "github:misumisumi/nixidy/feat/set-config-and-context";
+      url = "github:arnarg/nixidy";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixhelm = {
@@ -43,12 +43,14 @@
       systems = [ "x86_64-linux" ];
       imports = [
         inputs.devshell.flakeModule
+        inputs.flake-root.flakeModule
       ];
       perSystem =
         {
           pkgs,
           lib,
           system,
+          config,
           ...
         }:
         let
@@ -59,7 +61,7 @@
             };
           };
         in
-        {
+        rec {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
             overlays = [ ];
@@ -67,9 +69,10 @@
           };
 
           # Make nixidy CLI available
-          packages = {
-            nixidy = nixidy.packages.${system}.default;
-          };
+          packages = rec {
+            nixidy-cli = nixidy.packages.${system}.default;
+          }
+          // (pkgs.callPackages ./scripts/default.nix { flake-root = config.flake-root.package; });
           legacyPackages = {
             nixidyEnvs.${system} = nixidy.lib.mkEnvs {
               inherit pkgs;
@@ -101,6 +104,26 @@
                 production.modules = [ ./branch/production ];
               };
             };
+          };
+          devshells.default = {
+            devshell.startup = {
+              compinit.text = "";
+              flakeRoot.text = ''
+                FLAKE_ROOT="''$(${lib.getExe config.flake-root.package})"
+                export FLAKE_ROOT
+              '';
+            };
+            packages =
+              with pkgs;
+              with packages;
+              [
+                bashInteractive
+                nixidy-cli
+
+                k-dev
+                helm-dev
+                cilium-dev
+              ];
           };
         };
     };

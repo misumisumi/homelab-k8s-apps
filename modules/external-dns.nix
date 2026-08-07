@@ -40,10 +40,6 @@
         registry = "txt";
         txtOwnerId = "home-k8s-cluster";
         policy = "sync";
-        extraArgs = [
-          "--pdns-server=http://172.16.1.2:8081"
-          "--pdns-api-key=HogeHoge"
-        ];
       };
     };
 

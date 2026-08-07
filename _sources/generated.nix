@@ -8,24 +8,24 @@
 {
   argocd = {
     pname = "argocd";
-    version = "v3.4.5";
+    version = "v3.5.0";
     src = fetchFromGitHub {
       owner = "argoproj";
       repo = "argo-cd";
-      rev = "v3.4.5";
+      rev = "v3.5.0";
       fetchSubmodules = false;
-      sha256 = "sha256-hM7ss948dr7KntUGwiFDhr1OrbI+LAJlDgUMnegm+es=";
+      sha256 = "sha256-Lhxdpz/Mjg0zZpktJD6yBCNoL5aPtemJoSCQvKkBqsw=";
     };
   };
   cilium = {
     pname = "cilium";
-    version = "v1.19.6";
+    version = "v1.20.0";
     src = fetchFromGitHub {
       owner = "cilium";
       repo = "cilium";
-      rev = "v1.19.6";
+      rev = "v1.20.0";
       fetchSubmodules = false;
-      sha256 = "sha256-dbI34NJ4yxPvKNLivQUfMEK1vAL8lOXfK8gtWiqX+L0=";
+      sha256 = "sha256-iL41chnyFQIH1i6xHUdtkpwzJxDutw3of+8fvEd4B64=";
     };
   };
   gateway-api = {
@@ -41,13 +41,13 @@
   };
   piraeus-operator = {
     pname = "piraeus-operator";
-    version = "v2.10.8";
+    version = "v2.11.0";
     src = fetchFromGitHub {
       owner = "piraeusdatastore";
       repo = "piraeus-operator";
-      rev = "v2.10.8";
+      rev = "v2.11.0";
       fetchSubmodules = false;
-      sha256 = "sha256-/PbyUOUAzlQQSAnuyWjyap2RagPb4P6qoE5FXGhb8nI=";
+      sha256 = "sha256-LMIv1qERTgIWfGveuBVikDMphFVD1aFM8iEU5IhNJOQ=";
     };
   };
 }

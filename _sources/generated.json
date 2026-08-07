@@ -13,12 +13,12 @@
             "name": null,
             "owner": "argoproj",
             "repo": "argo-cd",
-            "rev": "v3.4.5",
-            "sha256": "sha256-hM7ss948dr7KntUGwiFDhr1OrbI+LAJlDgUMnegm+es=",
+            "rev": "v3.5.0",
+            "sha256": "sha256-Lhxdpz/Mjg0zZpktJD6yBCNoL5aPtemJoSCQvKkBqsw=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v3.4.5"
+        "version": "v3.5.0"
     },
     "cilium": {
         "cargoLock": null,
@@ -34,12 +34,12 @@
             "name": null,
             "owner": "cilium",
             "repo": "cilium",
-            "rev": "v1.19.6",
-            "sha256": "sha256-dbI34NJ4yxPvKNLivQUfMEK1vAL8lOXfK8gtWiqX+L0=",
+            "rev": "v1.20.0",
+            "sha256": "sha256-iL41chnyFQIH1i6xHUdtkpwzJxDutw3of+8fvEd4B64=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.19.6"
+        "version": "v1.20.0"
     },
     "gateway-api": {
         "cargoLock": null,
@@ -76,11 +76,11 @@
             "name": null,
             "owner": "piraeusdatastore",
             "repo": "piraeus-operator",
-            "rev": "v2.10.8",
-            "sha256": "sha256-/PbyUOUAzlQQSAnuyWjyap2RagPb4P6qoE5FXGhb8nI=",
+            "rev": "v2.11.0",
+            "sha256": "sha256-LMIv1qERTgIWfGveuBVikDMphFVD1aFM8iEU5IhNJOQ=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v2.10.8"
+        "version": "v2.11.0"
     }
 }
