@@ -84,7 +84,7 @@ in
           };
           requests = {
             cpu = "1";
-            memory = "2Gi";
+            memory = "1Gi";
           };
         };
       };
