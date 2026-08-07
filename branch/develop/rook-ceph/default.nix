@@ -19,6 +19,7 @@ in
 {
   applications.rook-ceph = {
     syncPolicy.syncOptions.serverSideApply = true;
+    syncPolicy.syncOptions.clientSideApplyMigration = false;
     resources.cephClusters.rook-ceph = {
     metadata.name = "rook-ceph";
     spec = {
