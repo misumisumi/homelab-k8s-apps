@@ -1,7 +1,6 @@
 let
   hddDisk1 = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_ceph_disk_01";
   hddDisk2 = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_ceph_disk_02";
-  metaDisk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_incus_ceph_meta_disk";
 
   cephHosts = [
     "ceph-worker1"
@@ -15,9 +14,6 @@ let
       { name = hddDisk1; }
       { name = hddDisk2; }
     ];
-    config = {
-      metadataDevice = metaDisk;
-    };
   };
 in
 {
