@@ -15,7 +15,7 @@ data:
           orgs:
             - name: misumi-homelab
               teams:
-                - argocd-admin
+                - homelab-dev-admin
   exec.enabled: "false"
   resource.customizations.ignoreResourceUpdates.ConfigMap: |
     jqPathExpressions:

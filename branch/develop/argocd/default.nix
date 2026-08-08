@@ -20,14 +20,14 @@ in
               orgs:
                 - name: misumi-homelab
                   teams:
-                    - argocd-admin
+                    - homelab-dev-admin
       '';
       # No explicit oidc.config: ArgoCD derives the Dex client secret from
       # server.secretkey (matching the bundled Dex static client) and requests
       # the default scopes including "groups" for RBAC.
-      # GitHub SSO RBAC: misumi-homelab:argocd-admin team members are admins,
+      # GitHub SSO RBAC: misumi-homelab:homelab-dev-admin team members are admins,
       # all other org members get read-only.
-      configs.rbac."policy.csv" = "g, misumi-homelab:argocd-admin, role:admin";
+      configs.rbac."policy.csv" = "g, misumi-homelab:homelab-dev-admin, role:admin";
       configs.rbac."policy.default" = "role:readonly";
     };
     resources = {

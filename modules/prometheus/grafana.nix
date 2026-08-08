@@ -35,10 +35,10 @@
         enabled = true;
         allow_sign_up = true;
         allowed_organizations = "misumi-homelab";
-        allowed_teams = "misumi-homelab:argocd-admin";
+        allowed_teams = "misumi-homelab:homelab-dev-admin";
         client_id = "\$__env{GF_AUTH_GITHUB_CLIENT_ID}";
         client_secret = "\$__env{GF_AUTH_GITHUB_CLIENT_SECRET}";
-        role_attribute_path = "contains(groups[*], 'misumi-homelab:argocd-admin') && 'Admin' || 'Viewer'";
+        role_attribute_path = "contains(groups[*], 'misumi-homelab:homelab-dev-admin') && 'Admin' || 'Viewer'";
       };
     };
   };
