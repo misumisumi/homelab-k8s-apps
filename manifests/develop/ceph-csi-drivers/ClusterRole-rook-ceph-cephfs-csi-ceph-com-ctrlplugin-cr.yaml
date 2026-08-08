@@ -1,12 +1,34 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: rbd-csi-ceph-com-ctrlplugin-cr
+  name: rook-ceph-cephfs-csi-ceph-com-ctrlplugin-cr
 rules:
   - apiGroups:
       - ""
     resources:
       - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - storage.k8s.io
+    resources:
+      - csinodes
     verbs:
       - get
       - list
@@ -31,6 +53,7 @@ rules:
       - get
       - list
       - watch
+      - patch
       - update
   - apiGroups:
       - storage.k8s.io
@@ -68,22 +91,6 @@ rules:
   - apiGroups:
       - ""
     resources:
-      - nodes
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - storage.k8s.io
-    resources:
-      - csinodes
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - ""
-    resources:
       - persistentvolumeclaims/status
     verbs:
       - patch
@@ -94,7 +101,6 @@ rules:
     verbs:
       - get
       - list
-      - watch
   - apiGroups:
       - snapshot.storage.k8s.io
     resources:
@@ -120,24 +126,6 @@ rules:
     verbs:
       - update
       - patch
-  - apiGroups:
-      - ""
-    resources:
-      - configmaps
-    verbs:
-      - get
-  - apiGroups:
-      - ""
-    resources:
-      - serviceaccounts
-    verbs:
-      - get
-  - apiGroups:
-      - ""
-    resources:
-      - serviceaccounts/token
-    verbs:
-      - create
   - apiGroups:
       - groupsnapshot.storage.k8s.io
     resources:
@@ -202,27 +190,24 @@ rules:
       - volumegroupreplicationclasses
     verbs:
       - get
-      - list
-      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - serviceaccounts/token
+    verbs:
+      - create
   - apiGroups:
       - authentication.k8s.io
     resources:
       - tokenreviews
     verbs:
       - create
-  - apiGroups:
-      - authorization.k8s.io
-    resources:
-      - subjectaccessreviews
-    verbs:
-      - create
-  - apiGroups:
-      - cbt.storage.k8s.io
-    resources:
-      - snapshotmetadataservices
-    verbs:
-      - get
-      - list
   - apiGroups:
       - storage.k8s.io
     resources:

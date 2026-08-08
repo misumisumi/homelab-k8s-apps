@@ -1,7 +1,7 @@
 apiVersion: csi.ceph.io/v1
 kind: Driver
 metadata:
-  name: rbd.csi.ceph.com
+  name: rook-ceph.cephfs.csi.ceph.com
   namespace: rook-ceph
 spec:
   attachRequired: true
@@ -11,7 +11,7 @@ spec:
     hostNetwork: false
     privileged: false
     replicas: 1
-    serviceAccountName: rbd-csi-ceph-com-ctrlplugin-sa
+    serviceAccountName: rook-ceph-cephfs-csi-ceph-com-ctrlplugin-sa
     tolerations: []
     volumes: []
   deployCsiAddons: false
@@ -31,7 +31,7 @@ spec:
     verbosity: 0
   nodePlugin:
     imagePullPolicy: IfNotPresent
-    serviceAccountName: rbd-csi-ceph-com-nodeplugin-sa
+    serviceAccountName: rook-ceph-cephfs-csi-ceph-com-nodeplugin-sa
     tolerations: []
     volumes: []
-  snapshotPolicy: none
+  snapshotPolicy: volumeSnapshot

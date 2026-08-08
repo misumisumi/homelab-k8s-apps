@@ -26,13 +26,13 @@
 
         drivers = {
           rbd = {
-            name = "rbd.csi.ceph.com";
+            name = "rook-ceph.rbd.csi.ceph.com";
             enabled = true;
             imageSet.name = "rook-csi-operator-image-set-configmap";
             clusterName = "rook-ceph";
           };
           cephfs = {
-            name = "cephfs.csi.ceph.com";
+            name = "rook-ceph.cephfs.csi.ceph.com";
             enabled = true;
             imageSet.name = "rook-csi-operator-image-set-configmap";
             clusterName = "rook-ceph";
