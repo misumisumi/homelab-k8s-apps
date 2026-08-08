@@ -33,7 +33,7 @@
       };
       "auth.github" = {
         enabled = true;
-        allow_sign_up = false;
+        allow_sign_up = true;
         allowed_organizations = "misumi-homelab";
         allowed_teams = "misumi-homelab:argocd-admin";
         client_id = "\$__env{GF_AUTH_GITHUB_CLIENT_ID}";
