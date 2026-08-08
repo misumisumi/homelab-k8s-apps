@@ -75,6 +75,8 @@ spec:
             readOnlyRootFilesystem: true
       dnsPolicy: ClusterFirst
       hostNetwork: false
+      nodeSelector:
+        role.worker: app
       securityContext:
         fsGroup: 65534
         runAsGroup: 65534

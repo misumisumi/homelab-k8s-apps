@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 5f137e1b3a6ba7485ba7d8762f7fbc3dd33e2bd4244ca428cac4b9e624619d2d
+        checksum/config: 541f3f14cc34c1e4ff981b182f36762edff196cb1abf9fb8d2595c0995a61c93
         checksum/sc-dashboard-provider-config: e70bf6a851099d385178a76de9757bb0bef8299da6d8443602590e44f05fdf24
         kubectl.kubernetes.io/default-container: grafana
       labels:
@@ -212,6 +212,8 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: storage
+      nodeSelector:
+        role.worker: app
       securityContext:
         fsGroup: 472
         runAsGroup: 472

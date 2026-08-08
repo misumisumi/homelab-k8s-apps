@@ -1,5 +1,8 @@
 {
   applications.kube-prometheus-stack.helm.releases.kube-prometheus-stack.values.grafana = {
+    nodeSelector = {
+      "role.worker" = "app";
+    };
     persistence = {
       enabled = true;
       storageClassName = "ceph-block";
