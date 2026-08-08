@@ -3,6 +3,19 @@
     nodeSelector = {
       "role.worker" = "app";
     };
+    # Give the first-start DB migration time before the readiness probe
+    # restarts the container.
+    readinessProbe = {
+      httpGet = {
+        path = "/api/health";
+        port = 3000;
+      };
+      initialDelaySeconds = 60;
+      periodSeconds = 10;
+      timeoutSeconds = 1;
+      failureThreshold = 10;
+      successThreshold = 1;
+    };
     persistence = {
       enabled = true;
       storageClassName = "ceph-block";
