@@ -25,6 +25,12 @@
     admin.existingSecret = "grafana-admin";
     envFromSecret = "grafana-oauth";
     "grafana.ini" = {
+      # Pin the external URL so OAuth redirect_uri is https and matches the
+      # callback registered in the GitHub OAuth App (the gateway terminates TLS).
+      "server" = {
+        domain = "grafana.dev.misumi-sumi.com";
+        root_url = "https://grafana.dev.misumi-sumi.com";
+      };
       "auth.github" = {
         enabled = true;
         allow_sign_up = false;

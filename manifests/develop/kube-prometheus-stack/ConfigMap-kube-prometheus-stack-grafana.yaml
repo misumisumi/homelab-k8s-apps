@@ -19,7 +19,8 @@ data:
     plugins = /var/lib/grafana/plugins
     provisioning = /etc/grafana/provisioning
     [server]
-    domain = ''
+    domain = grafana.dev.misumi-sumi.com
+    root_url = https://grafana.dev.misumi-sumi.com
     [unified_storage]
     index_path = /var/lib/grafana-search/bleve
 kind: ConfigMap
