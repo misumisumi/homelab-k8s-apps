@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ceph-csi-drivers
+  namespace: argocd
+spec:
+  destination:
+    namespace: rook-ceph
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./manifests/develop/ceph-csi-drivers
+    repoURL: https://github.com/misumisumi/homelab-k8s-apps.git
+    targetRevision: develop
+  syncPolicy: {}

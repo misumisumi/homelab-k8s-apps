@@ -7,6 +7,8 @@ let
   inherit (lib) nixdyGenerators;
 in
 {
+  imports = [ ./csi.nix ];
+
   nixidy.applicationImports = [
     (nixdyGenerators.fromChartCRDModule {
       name = "rook-ceph";

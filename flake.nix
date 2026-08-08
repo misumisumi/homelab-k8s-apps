@@ -94,6 +94,18 @@
                     cp -r charts/piraeus/* $out/
                   '';
                 };
+                ceph-csi-operator.ceph-csi-drivers = pkgs.stdenv.mkDerivation {
+                  name = "ceph-csi-drivers-chart";
+                  src = (pkgs.callPackage ./_sources/generated.nix { }).ceph-csi-operator.src;
+                  phases = [
+                    "unpackPhase"
+                    "installPhase"
+                  ];
+                  installPhase = ''
+                    mkdir -p $out
+                    cp -r deploy/charts/ceph-csi-drivers/* $out/
+                  '';
+                };
               };
 
               modules = [ ./modules ];

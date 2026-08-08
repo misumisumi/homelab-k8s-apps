@@ -13,3 +13,7 @@ fetch.github = 'kubernetes-sigs/gateway-api'
 [piraeus-operator]
 src.github = 'piraeusdatastore/piraeus-operator'
 fetch.github = 'piraeusdatastore/piraeus-operator'
+
+[ceph-csi-operator]
+src.github = 'ceph/ceph-csi-operator'
+fetch.github = 'ceph/ceph-csi-operator'

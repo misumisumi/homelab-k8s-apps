@@ -17,6 +17,17 @@
       sha256 = "sha256-Lhxdpz/Mjg0zZpktJD6yBCNoL5aPtemJoSCQvKkBqsw=";
     };
   };
+  ceph-csi-operator = {
+    pname = "ceph-csi-operator";
+    version = "v1.0.4";
+    src = fetchFromGitHub {
+      owner = "ceph";
+      repo = "ceph-csi-operator";
+      rev = "v1.0.4";
+      fetchSubmodules = false;
+      sha256 = "sha256-9oT3dvb7SrD88XoRhiiIE199LDZ//NQEA4Lt0eyOAOg=";
+    };
+  };
   cilium = {
     pname = "cilium";
     version = "v1.20.0";
