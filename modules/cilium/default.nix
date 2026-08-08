@@ -42,6 +42,40 @@ in
           enabled = true;
           relay.enabled = true;
           ui.enabled = true;
+          # Enable hubble-relay Prometheus metrics and its ServiceMonitor.
+          relay.prometheus = {
+            enabled = true;
+            serviceMonitor = {
+              enabled = true;
+              trustCRDsExist = true;
+            };
+          };
+          metrics.enabled = [
+            "dns:query;ignoreAAAA"
+            "drop"
+            "tcp"
+            "flow"
+            "icmp"
+            "port-distribution"
+          ];
+        };
+        # Cilium agent metrics + ServiceMonitor (port 9962)
+        prometheus = {
+          enabled = true;
+          serviceMonitor = {
+            enabled = true;
+            trustCRDsExist = true;
+          };
+        };
+        # Cilium operator metrics + ServiceMonitor (port 9963)
+        operator.prometheus.serviceMonitor = {
+          enabled = true;
+          trustCRDsExist = true;
+        };
+        # Cilium envoy metrics + ServiceMonitor (port 9964)
+        envoy.prometheus.serviceMonitor = {
+          enabled = true;
+          trustCRDsExist = true;
         };
         ciliumEndpointSlice = {
           enabled = true;

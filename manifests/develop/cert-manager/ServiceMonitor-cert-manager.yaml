@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+spec:
+  endpoints:
+    - interval: 30s
+      port: http-metrics
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cert-manager

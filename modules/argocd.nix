@@ -9,6 +9,9 @@
 
     helm.releases.argocd = {
       chart = charts.argoproj.argo-cd;
+      # Let the chart render its ServiceMonitors (CRDs are not detectable
+      # during helm template).
+      extraOpts = [ "--api-versions" "monitoring.coreos.com/v1" ];
 
       values = {
         # SSO via bundled Dex (GitHub connector configured in configs.cm."dex.config")
@@ -25,6 +28,23 @@
         # 全アプリでServerSideApplyを使用する。
         # ArgoCD 3.3.2以降では ClientSideApplyMigration=false は不要(一時的な回避策)なので設定しない。
         configs.cm."application.syncOptions" = "ServerSideApply=true";
+        # Expose Prometheus metrics and ServiceMonitors for each component.
+        server.metrics = {
+          enabled = true;
+          serviceMonitor.enabled = true;
+        };
+        controller.metrics = {
+          enabled = true;
+          serviceMonitor.enabled = true;
+        };
+        repoServer.metrics = {
+          enabled = true;
+          serviceMonitor.enabled = true;
+        };
+        dex.metrics = {
+          enabled = true;
+          serviceMonitor.enabled = true;
+        };
       };
     };
   };

@@ -88,6 +88,25 @@ in
           ];
         };
       };
+      serviceMonitors.piraeus-operator = {
+        apiVersion = "monitoring.coreos.com/v1";
+        kind = "ServiceMonitor";
+        metadata = {
+          name = "piraeus-operator";
+          namespace = piraeusNamespace;
+        };
+        spec = {
+          selector.matchLabels."app.kubernetes.io/name" = "piraeus-datastore";
+          endpoints = [
+            {
+              port = "metrics";
+              scheme = "https";
+              interval = "30s";
+              tlsConfig.insecureSkipVerify = true;
+            }
+          ];
+        };
+      };
     };
   };
 }

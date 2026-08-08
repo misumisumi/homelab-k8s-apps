@@ -19,6 +19,12 @@
           dashboard = true;
           insecure = true;
         };
+        metrics.prometheus = {
+          entryPoint = "metrics";
+          service.enabled = true;
+          serviceMonitor.enabled = true;
+          disableAPICheck = true;
+        };
         experimental.kubernetesGateway.enabled = true;
         gateway = {
           enabled = false;

@@ -63,6 +63,60 @@ in
           ];
         };
       };
+
+      serviceMonitors = {
+        cert-manager = {
+          apiVersion = "monitoring.coreos.com/v1";
+          kind = "ServiceMonitor";
+          metadata = {
+            name = "cert-manager";
+            namespace = "cert-manager";
+          };
+          spec = {
+            selector.matchLabels."app.kubernetes.io/name" = "cert-manager";
+            endpoints = [
+              {
+                port = "http-metrics";
+                interval = "30s";
+              }
+            ];
+          };
+        };
+        cainjector = {
+          apiVersion = "monitoring.coreos.com/v1";
+          kind = "ServiceMonitor";
+          metadata = {
+            name = "cert-manager-cainjector";
+            namespace = "cert-manager";
+          };
+          spec = {
+            selector.matchLabels."app.kubernetes.io/name" = "cainjector";
+            endpoints = [
+              {
+                port = "http-metrics";
+                interval = "30s";
+              }
+            ];
+          };
+        };
+        webhook = {
+          apiVersion = "monitoring.coreos.com/v1";
+          kind = "ServiceMonitor";
+          metadata = {
+            name = "cert-manager-webhook";
+            namespace = "cert-manager";
+          };
+          spec = {
+            selector.matchLabels."app.kubernetes.io/name" = "webhook";
+            endpoints = [
+              {
+                port = "metrics";
+                interval = "30s";
+              }
+            ];
+          };
+        };
+      };
     };
   };
 }

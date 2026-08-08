@@ -22,10 +22,6 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      annotations:
-        prometheus.io/path: /metrics
-        prometheus.io/port: "9100"
-        prometheus.io/scrape: "true"
       labels:
         app.kubernetes.io/instance: traefik-traefik
         app.kubernetes.io/managed-by: Helm

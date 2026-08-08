@@ -22,6 +22,10 @@ in
       chart = charts.external-secrets.external-secrets;
       values = {
         installCRDs = true;
+        serviceMonitor = {
+          enabled = true;
+          renderMode = "alwaysRender";
+        };
         nodeSelector = {
           "role.worker" = "app";
         };
