@@ -38,31 +38,45 @@ in
       };
     };
 
-    resources.linstorSatelliteConfigurations = {
-      piraeus-worker1-storage = {
-        metadata.name = "piraeus-worker1-storage";
-        spec = {
-          nodeSelector."kubernetes.io/hostname" = "piraeus-worker1";
-          storagePools = [ storagePool ];
+    resources = {
+      linstorSatelliteConfigurations = {
+        piraeus-worker1-storage = {
+          metadata.name = "piraeus-worker1-storage";
+          spec = {
+            nodeSelector."kubernetes.io/hostname" = "piraeus-worker1";
+            storagePools = [ storagePool ];
+          };
+        };
+        piraeus-worker2-storage = {
+          metadata.name = "piraeus-worker2-storage";
+          spec = {
+            nodeSelector."kubernetes.io/hostname" = "piraeus-worker2";
+            storagePools = [ storagePool ];
+          };
+        };
+        piraeus-worker3-diskless = {
+          metadata.name = "piraeus-worker3-diskless";
+          spec = {
+            nodeSelector."kubernetes.io/hostname" = "piraeus-worker3";
+            properties = [
+              {
+                name = "AutoplaceTarget";
+                value = "no";
+              }
+            ];
+          };
         };
       };
-      piraeus-worker2-storage = {
-        metadata.name = "piraeus-worker2-storage";
-        spec = {
-          nodeSelector."kubernetes.io/hostname" = "piraeus-worker2";
-          storagePools = [ storagePool ];
-        };
-      };
-      piraeus-worker3-diskless = {
-        metadata.name = "piraeus-worker3-diskless";
-        spec = {
-          nodeSelector."kubernetes.io/hostname" = "piraeus-worker3";
-          properties = [
-            {
-              name = "AutoplaceTarget";
-              value = "no";
-            }
-          ];
+
+      storageClasses.linstor-hdd-pool = {
+        metadata.name = "linstor-hdd-pool";
+        provisioner = "linstor.csi.linbit.com";
+        reclaimPolicy = "Delete";
+        allowVolumeExpansion = true;
+        volumeBindingMode = "WaitForFirstConsumer";
+        parameters = {
+          "linstor.csi.linbit.com/storagePool" = storagePool.name;
+          "linstor.csi.linbit.com/placementCount" = "2";
         };
       };
     };

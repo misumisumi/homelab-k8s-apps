@@ -1,0 +1,11 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: linstor-hdd-pool
+parameters:
+  linstor.csi.linbit.com/placementCount: "2"
+  linstor.csi.linbit.com/storagePool: hdd-pool
+provisioner: linstor.csi.linbit.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
