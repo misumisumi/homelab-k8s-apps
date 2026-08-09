@@ -6,8 +6,8 @@ metadata:
     app.kubernetes.io/instance: piraeus-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: piraeus-datastore
-    app.kubernetes.io/version: v2.10.8
-    helm.sh/chart: piraeus-2.10.8
+    app.kubernetes.io/version: v2.11.0
+    helm.sh/chart: piraeus-2.11.0
   name: piraeus-operator-leader-election
   namespace: piraeus-datastore
 rules:

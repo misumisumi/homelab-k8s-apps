@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: linstor-affinity-controller
+  namespace: piraeus-datastore
+spec:
+  podMetricsEndpoints:
+    - path: /metrics
+      port: metrics
+      scheme: http
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: linstor-affinity-controller

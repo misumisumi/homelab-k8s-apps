@@ -6,8 +6,8 @@ metadata:
     app.kubernetes.io/instance: piraeus-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: piraeus-datastore
-    app.kubernetes.io/version: v2.10.8
-    helm.sh/chart: piraeus-2.10.8
+    app.kubernetes.io/version: v2.11.0
+    helm.sh/chart: piraeus-2.11.0
   name: piraeus-operator-controller-manager
   namespace: piraeus-datastore
 spec:
@@ -51,7 +51,7 @@ spec:
                   fieldPath: metadata.namespace
             - name: IMAGE_CONFIG_MAP_NAME
               value: piraeus-operator-image-config
-          image: quay.io/piraeusdatastore/piraeus-operator:v2.10.8
+          image: quay.io/piraeusdatastore/piraeus-operator:v2.11.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
