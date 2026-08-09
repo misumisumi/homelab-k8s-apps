@@ -8,5 +8,8 @@
       accessModes = [ "ReadWriteOnce" ];
       resources.requests.storage = "10Gi";
     };
+    # Config (with the Discord webhook receiver) is rendered by
+    # external-secrets so the webhook URL never appears in git.
+    configSecret = "alertmanager-config";
   };
 }

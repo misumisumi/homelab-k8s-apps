@@ -73,5 +73,54 @@
         ];
       };
     };
+
+    # AlertManager config with the Discord webhook receiver, rendered from
+    # vault so the webhook URL stays out of git.
+    alertmanager-config = {
+      apiVersion = "external-secrets.io/v1";
+      kind = "ExternalSecret";
+      metadata = {
+        name = "alertmanager-config";
+        namespace = "monitoring";
+      };
+      spec = {
+        refreshInterval = "1h";
+        secretStoreRef = {
+          name = "vault-backend";
+          kind = "ClusterSecretStore";
+        };
+        target = {
+          name = "alertmanager-config";
+          creationPolicy = "Owner";
+          template = {
+            engineVersion = "v2";
+            data = {
+              "alertmanager.yaml" = ''
+                route:
+                  group_by: ['alertname']
+                  group_wait: 30s
+                  group_interval: 5m
+                  repeat_interval: 4h
+                  receiver: discord
+                receivers:
+                  - name: discord
+                    discord_configs:
+                      - webhook_url: '{{ .discordWebhookUrl }}'
+                        send_resolved: true
+              '';
+            };
+          };
+        };
+        data = [
+          {
+            secretKey = "discordWebhookUrl";
+            remoteRef = {
+              key = "alertmanager";
+              property = "discord_webhook_url";
+            };
+          }
+        ];
+      };
+    };
   };
 }
