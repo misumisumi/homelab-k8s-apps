@@ -25,7 +25,8 @@
           serviceMonitor.enabled = true;
           disableAPICheck = true;
         };
-        experimental.kubernetesGateway.enabled = true;
+        # kubernetesGateway provider is stable since traefik v3.1; the
+        # experimental flag is gone and causes a startup error in v3.7+.
         gateway = {
           enabled = false;
         };

@@ -42,7 +42,6 @@ spec:
             - --metrics.prometheus.entrypoint=metrics
             - --providers.kubernetescrd
             - --providers.kubernetescrd.allowEmptyServices=true
-            - --experimental.kubernetesgateway
             - --providers.kubernetesgateway
             - --providers.kubernetesgateway.statusaddress.service.name=traefik
             - --providers.kubernetesgateway.statusaddress.service.namespace=traefik
