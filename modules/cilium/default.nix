@@ -38,6 +38,10 @@ in
       values = {
         kubeProxyReplacement = true;
         identityAllocationMode = "crd";
+        # Underlying NIC is 1500 MTU; VXLAN (tunnel mode) adds 50B overhead.
+        # Without this, cilium auto-detects 1500 and large packets get
+        # blackholed (slow TCP, broken UDP DNS from pods).
+        mtu = 1450;
         hubble = {
           enabled = true;
           relay.enabled = true;
