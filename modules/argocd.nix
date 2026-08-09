@@ -24,6 +24,12 @@
         global.nodeSelector = {
           "role.worker" = "app";
         };
+        # healthz?full=true checks all repos (git ops); on small nodes the
+        # default 1s liveness timeout triggers restart loops.
+        repoServer = {
+          livenessProbe.timeoutSeconds = 30;
+          readinessProbe.timeoutSeconds = 10;
+        };
         # 巨大CRD (ApplicationSet等) がclient-side applyのアノテーション上限(256KB)を超えるため、
         # 全アプリでServerSideApplyを使用する。
         # ArgoCD 3.3.2以降では ClientSideApplyMigration=false は不要(一時的な回避策)なので設定しない。
