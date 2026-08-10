@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: storageshares
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: storageshares
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: storageshares
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - storage-shares
+            - server
+          command:
+            - ocis
+          env:
+            - name: MICRO_REGISTRY
+              value: nats-js-kv
+            - name: MICRO_REGISTRY_ADDRESS
+              value: nats:9233
+            - name: STORAGE_SHARES_LOG_COLOR
+              value: "false"
+            - name: STORAGE_SHARES_LOG_LEVEL
+              value: info
+            - name: STORAGE_SHARES_LOG_PRETTY
+              value: "false"
+            - name: STORAGE_SHARES_TRACING_ENABLED
+              value: "false"
+            - name: STORAGE_SHARES_TRACING_TYPE
+              value: jaeger
+            - name: STORAGE_SHARES_TRACING_ENDPOINT
+            - name: STORAGE_SHARES_TRACING_COLLECTOR
+            - name: STORAGE_SHARES_DEBUG_PPROF
+              value: "false"
+            - name: STORAGE_SHARES_GRPC_ADDR
+              value: 0.0.0.0:9154
+            - name: STORAGE_SHARES_DEBUG_ADDR
+              value: 0.0.0.0:9156
+            - name: STORAGE_SHARES_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwt-secret
+                  name: jwt-secret
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: storageshares
+          ports:
+            - containerPort: 9154
+              name: grpc
+            - containerPort: 9156
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - emptyDir: {}
+          name: tmp-volume

@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  storage-uuid: 4d15164a-c547-451b-b42e-ae689a28f71f
+kind: ConfigMap
+metadata:
+  name: storage-users
+  namespace: owncloud

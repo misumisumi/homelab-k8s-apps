@@ -106,6 +106,18 @@
                     cp -r deploy/charts/ceph-csi-drivers/* $out/
                   '';
                 };
+                owncloud.ocis = pkgs.stdenv.mkDerivation {
+                  name = "ocis-chart";
+                  src = (pkgs.callPackage ./_sources/generated.nix { }).ocis.src;
+                  phases = [
+                    "unpackPhase"
+                    "installPhase"
+                  ];
+                  installPhase = ''
+                    mkdir -p $out
+                    cp -r charts/ocis/* $out/
+                  '';
+                };
               };
 
               modules = [ ./modules ];

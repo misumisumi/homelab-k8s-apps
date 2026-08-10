@@ -1,0 +1,147 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: idm
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: idm
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: idm
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - idm
+            - server
+          command:
+            - ocis
+          env:
+            - name: MICRO_REGISTRY
+              value: nats-js-kv
+            - name: MICRO_REGISTRY_ADDRESS
+              value: nats:9233
+            - name: IDM_LOG_COLOR
+              value: "false"
+            - name: IDM_LOG_LEVEL
+              value: info
+            - name: IDM_LOG_PRETTY
+              value: "false"
+            - name: IDM_TRACING_ENABLED
+              value: "false"
+            - name: IDM_TRACING_TYPE
+              value: jaeger
+            - name: IDM_TRACING_ENDPOINT
+            - name: IDM_TRACING_COLLECTOR
+            - name: IDM_DEBUG_PPROF
+              value: "false"
+            - name: IDM_LDAPS_ADDR
+              value: 0.0.0.0:9235
+            - name: IDM_DEBUG_ADDR
+              value: 0.0.0.0:9239
+            - name: IDM_CREATE_DEMO_USERS
+              value: "false"
+            - name: OCIS_OIDC_ISSUER
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: IDM_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: admin-user
+            - name: IDM_ADMIN_USER_ID
+              valueFrom:
+                secretKeyRef:
+                  key: user-id
+                  name: admin-user
+            - name: IDM_SVC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: graph-ldap-bind-password
+                  name: ldap-bind-secrets
+            - name: IDM_REVASVC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: reva-ldap-bind-password
+                  name: ldap-bind-secrets
+            - name: IDM_IDPSVC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: idp-ldap-bind-password
+                  name: ldap-bind-secrets
+            - name: IDM_LDAPS_CERT
+              value: /etc/ocis/ldap-cert/ldap.crt
+            - name: IDM_LDAPS_KEY
+              value: /etc/ocis/ldap-cert/ldap.key
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: idm
+          ports:
+            - containerPort: 9235
+              name: ldaps
+            - containerPort: 9239
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /etc/ocis/ldap-cert
+              name: ldap-cert
+              readOnly: true
+            - mountPath: /var/lib/ocis
+              name: idm-data
+      initContainers:
+        - command:
+            - mkdir
+            - -p
+            - /var/lib/ocis/idm
+          image: busybox:stable
+          imagePullPolicy: IfNotPresent
+          name: init-dir
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /var/lib/ocis
+              name: idm-data
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - name: ldap-cert
+          secret:
+            secretName: ldap-cert
+        - name: idm-data
+          persistentVolumeClaim:
+            claimName: idm-data

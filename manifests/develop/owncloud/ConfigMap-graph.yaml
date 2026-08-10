@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  application-id: 821193a5-765f-4c31-8db8-74746405de67
+kind: ConfigMap
+metadata:
+  name: graph
+  namespace: owncloud

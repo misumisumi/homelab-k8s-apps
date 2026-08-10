@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: ocis-metrics
+  namespace: owncloud
+spec:
+  endpoints:
+    - interval: 60s
+      path: /metrics
+      port: metrics-debug
+      scrapeTimeout: 60s
+  selector:
+    matchLabels:
+      ocis-metrics: enabled

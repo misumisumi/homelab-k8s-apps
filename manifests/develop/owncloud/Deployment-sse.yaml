@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: sse
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sse
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: sse
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - sse
+            - server
+          command:
+            - ocis
+          env:
+            - name: MICRO_REGISTRY
+              value: nats-js-kv
+            - name: MICRO_REGISTRY_ADDRESS
+              value: nats:9233
+            - name: OCIS_CORS_ALLOW_ORIGINS
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: OCIS_EVENTS_ENDPOINT
+              value: nats:9233
+            - name: SSE_LOG_COLOR
+              value: "false"
+            - name: SSE_LOG_LEVEL
+              value: info
+            - name: SSE_LOG_PRETTY
+              value: "false"
+            - name: SSE_TRACING_ENABLED
+              value: "false"
+            - name: SSE_TRACING_TYPE
+              value: jaeger
+            - name: SSE_TRACING_ENDPOINT
+            - name: SSE_TRACING_COLLECTOR
+            - name: SSE_DEBUG_PPROF
+              value: "false"
+            - name: SSE_DEBUG_ADDR
+              value: 0.0.0.0:9135
+            - name: SSE_HTTP_ADDR
+              value: 0.0.0.0:9939
+            - name: SSE_KEEPALIVE_INTERVAL
+              value: 30s
+            - name: SSE_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwt-secret
+                  name: jwt-secret
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: sse
+          ports:
+            - containerPort: 9939
+              name: http
+            - containerPort: 9135
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /etc/ocis/messaging-system-ca
+              name: messaging-system-ca
+              readOnly: true
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - emptyDir: {}
+          name: messaging-system-ca

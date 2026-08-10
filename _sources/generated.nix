@@ -50,6 +50,17 @@
       sha256 = "sha256-Hq3vaCQRSRFjya76qRYw4/BcH00Wu5wE6UQACrjKJSk=";
     };
   };
+  ocis = {
+    pname = "ocis";
+    version = "0.7.0";
+    src = fetchFromGitHub {
+      owner = "owncloud";
+      repo = "ocis-charts";
+      rev = "161472690d7577b6b4342dbf2b87fa04e3dd6181";
+      fetchSubmodules = false;
+      sha256 = "sha256-I9Zi2VG8hUReSOjneOJGtSQ+NzSUM0qpfe5NxiyiAsM=";
+    };
+  };
   piraeus-operator = {
     pname = "piraeus-operator";
     version = "v2.11.0";

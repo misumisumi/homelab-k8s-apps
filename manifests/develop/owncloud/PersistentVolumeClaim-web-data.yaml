@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: web-data
+  namespace: owncloud
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: linstor-hdd-pool

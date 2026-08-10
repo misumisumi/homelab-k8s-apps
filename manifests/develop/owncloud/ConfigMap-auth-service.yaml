@@ -1,0 +1,7 @@
+apiVersion: v1
+data:
+  service-account-id: c23bac31-3151-4b26-9272-8c1cd74c61f5
+kind: ConfigMap
+metadata:
+  name: auth-service
+  namespace: owncloud

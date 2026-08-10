@@ -1,0 +1,173 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: frontend
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        checksum/config: 3804feffcdcc564b404593cee1cdca1d582b49afb6b02f72361212c4683ad8e8
+      labels:
+        app: frontend
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - frontend
+            - server
+          command:
+            - ocis
+          env:
+            - name: MICRO_REGISTRY
+              value: nats-js-kv
+            - name: MICRO_REGISTRY_ADDRESS
+              value: nats:9233
+            - name: OCIS_CORS_ALLOW_ORIGINS
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: OCIS_EVENTS_ENDPOINT
+              value: nats:9233
+            - name: FRONTEND_LOG_COLOR
+              value: "false"
+            - name: FRONTEND_LOG_LEVEL
+              value: info
+            - name: FRONTEND_LOG_PRETTY
+              value: "false"
+            - name: FRONTEND_TRACING_ENABLED
+              value: "false"
+            - name: FRONTEND_TRACING_TYPE
+              value: jaeger
+            - name: FRONTEND_TRACING_ENDPOINT
+            - name: FRONTEND_TRACING_COLLECTOR
+            - name: FRONTEND_DEBUG_PPROF
+              value: "false"
+            - name: FRONTEND_HTTP_ADDR
+              value: 0.0.0.0:9140
+            - name: FRONTEND_DEBUG_ADDR
+              value: 0.0.0.0:9141
+            - name: FRONTEND_PUBLIC_URL
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: OCIS_LDAP_SERVER_WRITE_ENABLED
+              value: "true"
+            - name: FRONTEND_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwt-secret
+                  name: jwt-secret
+            - name: FRONTEND_APP_HANDLER_INSECURE
+              value: "false"
+            - name: FRONTEND_ARCHIVER_INSECURE
+              value: "false"
+            - name: FRONTEND_OCS_PUBLIC_WRITEABLE_SHARE_MUST_HAVE_PASSWORD
+              value: "false"
+            - name: FRONTEND_OCS_PUBLIC_SHARE_MUST_HAVE_PASSWORD
+              value: "false"
+            - name: FRONTEND_SEARCH_MIN_LENGTH
+              value: "3"
+            - name: FRONTEND_ARCHIVER_MAX_SIZE
+              value: "1073741824"
+            - name: FRONTEND_ARCHIVER_MAX_NUM_FILES
+              value: "10000"
+            - name: FRONTEND_FULL_TEXT_SEARCH_ENABLED
+              value: "false"
+            - name: OCIS_SHOW_USER_EMAIL_IN_RESULTS
+              value: "false"
+            - name: FRONTEND_OCS_STAT_CACHE_STORE
+              value: noop
+            - name: OCIS_EDITION
+              value: Community
+            - name: FRONTEND_MACHINE_AUTH_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: machine-auth-api-key
+                  name: machine-auth-api-key
+            - name: FRONTEND_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: service-account-id
+                  name: auth-service
+            - name: FRONTEND_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: service-account-secret
+                  name: service-account-secret
+            - name: OCIS_TRANSFER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: transfer-secret
+                  name: transfer-secret
+            - name: FRONTEND_AUTO_ACCEPT_SHARES
+              value: "true"
+            - name: FRONTEND_MAX_CONCURRENCY
+              value: "100"
+            - name: FRONTEND_PASSWORD_POLICY_MIN_CHARACTERS
+              value: "0"
+            - name: FRONTEND_PASSWORD_POLICY_MIN_LOWERCASE_CHARACTERS
+              value: "0"
+            - name: FRONTEND_PASSWORD_POLICY_MIN_UPPERCASE_CHARACTERS
+              value: "0"
+            - name: FRONTEND_PASSWORD_POLICY_MIN_DIGITS
+              value: "0"
+            - name: FRONTEND_PASSWORD_POLICY_MIN_SPECIAL_CHARACTERS
+              value: "0"
+            - name: FRONTEND_PASSWORD_POLICY_BANNED_PASSWORDS_LIST
+              value: /etc/ocis/sharing-banned-passwords.txt
+            - name: OCIS_ENABLE_OCM
+              value: "false"
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: frontend
+          ports:
+            - containerPort: 9140
+              name: http
+            - containerPort: 9141
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume
+            - mountPath: /etc/ocis
+              name: configs
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - emptyDir: {}
+          name: tmp-volume
+        - configMap:
+            name: sharing-banned-passwords-frontend
+          name: configs

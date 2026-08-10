@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: owncloud
+  namespace: argocd
+spec:
+  destination:
+    namespace: owncloud
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ./manifests/develop/owncloud
+    repoURL: https://github.com/misumisumi/homelab-k8s-apps.git
+    targetRevision: develop
+  syncPolicy: {}

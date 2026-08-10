@@ -6,6 +6,7 @@
     ./external-dns
     ./external-secrets
     ./gateway-api
+    ./owncloud
     ./piraeus-operator
     ./prometheus
     ./rook-ceph

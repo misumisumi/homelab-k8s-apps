@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: webfinger
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+    ocis-metrics: enabled
+  name: webfinger
+  namespace: owncloud
+spec:
+  ports:
+    - appProtocol: http
+      name: http
+      port: 8080
+      protocol: TCP
+    - appProtocol: http
+      name: metrics-debug
+      port: 8081
+      protocol: TCP
+  selector:
+    app: webfinger

@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: clientlog
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clientlog
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: clientlog
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - clientlog
+            - server
+          command:
+            - ocis
+          env:
+            - name: MICRO_REGISTRY
+              value: nats-js-kv
+            - name: MICRO_REGISTRY_ADDRESS
+              value: nats:9233
+            - name: OCIS_EVENTS_ENDPOINT
+              value: nats:9233
+            - name: CLIENTLOG_LOG_COLOR
+              value: "false"
+            - name: CLIENTLOG_LOG_LEVEL
+              value: info
+            - name: CLIENTLOG_LOG_PRETTY
+              value: "false"
+            - name: CLIENTLOG_TRACING_ENABLED
+              value: "false"
+            - name: CLIENTLOG_TRACING_TYPE
+              value: jaeger
+            - name: CLIENTLOG_TRACING_ENDPOINT
+            - name: CLIENTLOG_TRACING_COLLECTOR
+            - name: CLIENTLOG_DEBUG_PPROF
+              value: "false"
+            - name: CLIENTLOG_DEBUG_ADDR
+              value: 0.0.0.0:9260
+            - name: CLIENTLOG_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: service-account-id
+                  name: auth-service
+            - name: CLIENTLOG_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: service-account-secret
+                  name: service-account-secret
+            - name: CLIENTLOG_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwt-secret
+                  name: jwt-secret
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: clientlog
+          ports:
+            - containerPort: 9260
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /etc/ocis/messaging-system-ca
+              name: messaging-system-ca
+              readOnly: true
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - emptyDir: {}
+          name: messaging-system-ca

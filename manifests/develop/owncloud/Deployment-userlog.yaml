@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: userlog
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userlog
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: userlog
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - userlog
+            - server
+          command:
+            - ocis
+          env:
+            - name: MICRO_REGISTRY
+              value: nats-js-kv
+            - name: MICRO_REGISTRY_ADDRESS
+              value: nats:9233
+            - name: OCIS_CORS_ALLOW_ORIGINS
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: OCIS_EVENTS_ENDPOINT
+              value: nats:9233
+            - name: OCIS_PERSISTENT_STORE
+              value: nats-js-kv
+            - name: OCIS_PERSISTENT_STORE_NODES
+              value: nats:9233
+            - name: OCIS_DEFAULT_LANGUAGE
+              value: en
+            - name: USERLOG_LOG_COLOR
+              value: "false"
+            - name: USERLOG_LOG_LEVEL
+              value: info
+            - name: USERLOG_LOG_PRETTY
+              value: "false"
+            - name: USERLOG_DEBUG_PPROF
+              value: "false"
+            - name: USERLOG_HTTP_ADDR
+              value: 0.0.0.0:8080
+            - name: USERLOG_DEBUG_ADDR
+              value: 0.0.0.0:9210
+            - name: USERLOG_SERVICE_ACCOUNT_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: service-account-id
+                  name: auth-service
+            - name: USERLOG_SERVICE_ACCOUNT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: service-account-secret
+                  name: service-account-secret
+            - name: USERLOG_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  key: jwt-secret
+                  name: jwt-secret
+            - name: USERLOG_MAX_CONCURRENCY
+              value: "1"
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: userlog
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 9210
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /etc/ocis/messaging-system-ca
+              name: messaging-system-ca
+              readOnly: true
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - emptyDir: {}
+          name: messaging-system-ca

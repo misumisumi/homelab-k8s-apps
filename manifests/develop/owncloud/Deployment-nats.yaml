@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: nats
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nats
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - nats
+            - server
+          command:
+            - ocis
+          env:
+            - name: NATS_LOG_COLOR
+              value: "false"
+            - name: NATS_LOG_LEVEL
+              value: info
+            - name: NATS_LOG_PRETTY
+              value: "false"
+            - name: NATS_DEBUG_PPROF
+              value: "false"
+            - name: NATS_NATS_HOST
+              value: 0.0.0.0
+            - name: NATS_NATS_PORT
+              value: "9233"
+            - name: NATS_DEBUG_ADDR
+              value: 0.0.0.0:9234
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: nats
+          ports:
+            - containerPort: 9233
+              name: nats
+            - containerPort: 9234
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+          volumeMounts:
+            - mountPath: /var/lib/ocis
+              name: nats-data
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - name: nats-data
+          persistentVolumeClaim:
+            claimName: nats-data

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: postprocessing
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+    ocis-metrics: enabled
+  name: postprocessing
+  namespace: owncloud
+spec:
+  ports:
+    - appProtocol: http
+      name: metrics-debug
+      port: 9255
+      protocol: TCP
+  selector:
+    app: postprocessing

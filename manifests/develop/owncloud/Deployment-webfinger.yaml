@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: webfinger
+  namespace: owncloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webfinger
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: webfinger
+        app.kubernetes.io/instance: ocis
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: ocis
+        app.kubernetes.io/version: 7.1.4
+        helm.sh/chart: ocis-0.7.0
+    spec:
+      containers:
+        - args:
+            - webfinger
+            - server
+          command:
+            - ocis
+          env:
+            - name: MICRO_REGISTRY
+              value: nats-js-kv
+            - name: MICRO_REGISTRY_ADDRESS
+              value: nats:9233
+            - name: OCIS_CORS_ALLOW_ORIGINS
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: WEBFINGER_LOG_COLOR
+              value: "false"
+            - name: WEBFINGER_LOG_LEVEL
+              value: info
+            - name: WEBFINGER_LOG_PRETTY
+              value: "false"
+            - name: WEBFINGER_TRACING_ENABLED
+              value: "false"
+            - name: WEBFINGER_TRACING_TYPE
+              value: jaeger
+            - name: WEBFINGER_TRACING_ENDPOINT
+            - name: WEBFINGER_TRACING_COLLECTOR
+            - name: WEBFINGER_DEBUG_PPROF
+              value: "false"
+            - name: WEBFINGER_HTTP_ADDR
+              value: 0.0.0.0:8080
+            - name: WEBFINGER_DEBUG_ADDR
+              value: 0.0.0.0:8081
+            - name: WEBFINGER_OIDC_ISSUER
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: WEBFINGER_OWNCLOUD_SERVER_INSTANCE_URL
+              value: https://owncloud.dev.misumi-sumi.com
+            - name: WEBFINGER_INSECURE
+              value: "false"
+          image: owncloud/ocis:7.1.4
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: metrics-debug
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 10
+          name: webfinger
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 8081
+              name: metrics-debug
+          resources: {}
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+      nodeSelector:
+        role.worker: piraeus
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch

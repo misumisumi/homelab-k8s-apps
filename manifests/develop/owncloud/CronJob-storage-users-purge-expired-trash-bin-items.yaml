@@ -1,0 +1,102 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: storage-users-purge-expired-trash-bin-items
+  namespace: owncloud
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            app: storage-users-purge-expired-trash-bin-items
+            app.kubernetes.io/instance: ocis
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: ocis
+            app.kubernetes.io/version: 7.1.4
+            helm.sh/chart: ocis-0.7.0
+        spec:
+          containers:
+            - args:
+                - storage-users
+                - trash-bin
+                - purge-expired
+              command:
+                - ocis
+              env:
+                - name: MICRO_REGISTRY
+                  value: nats-js-kv
+                - name: MICRO_REGISTRY_ADDRESS
+                  value: nats:9233
+                - name: OCIS_EVENTS_ENDPOINT
+                  value: nats:9233
+                - name: STORAGE_USERS_LOG_COLOR
+                  value: "false"
+                - name: STORAGE_USERS_LOG_LEVEL
+                  value: info
+                - name: STORAGE_USERS_LOG_PRETTY
+                  value: "false"
+                - name: STORAGE_USERS_JWT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: jwt-secret
+                      name: jwt-secret
+                - name: OCIS_TRANSFER_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: transfer-secret
+                      name: transfer-secret
+                - name: STORAGE_USERS_MOUNT_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      key: storage-uuid
+                      name: storage-users
+                - name: STORAGE_USERS_SERVICE_ACCOUNT_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      key: service-account-id
+                      name: auth-service
+                - name: STORAGE_USERS_SERVICE_ACCOUNT_SECRET
+                  valueFrom:
+                    secretKeyRef:
+                      key: service-account-secret
+                      name: service-account-secret
+              image: owncloud/ocis:7.1.4
+              imagePullPolicy: IfNotPresent
+              name: storage-users-purge-expired-trash-bin-items
+              resources: {}
+              securityContext:
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts:
+                - mountPath: /tmp
+                  name: tmp-volume
+                - mountPath: /var/lib/ocis
+                  name: storageusers-data
+          nodeSelector: {}
+          restartPolicy: Never
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+          volumes:
+            - emptyDir: {}
+              name: tmp-volume
+            - name: storageusers-data
+              persistentVolumeClaim:
+                claimName: storageusers-data
+      ttlSecondsAfterFinished: 86400
+  schedule: 0 * * * *
+  startingDeadlineSeconds: 600
+  successfulJobsHistoryLimit: 3
+  suspend: true

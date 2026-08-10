@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  thumbnails-cleanup-script.sh: |
+    #!/bin/sh
+
+    find /var/lib/ocis/thumbnails \
+      -atime \
+      30 \
+      -exec rm -rf {} \;
+    true
+kind: ConfigMap
+metadata:
+  name: thumbnails-cleanup-script-configmap
+  namespace: owncloud

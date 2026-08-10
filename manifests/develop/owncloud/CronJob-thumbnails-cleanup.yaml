@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  annotations:
+    ignore-check.kube-linter.io/latest-tag: using the stable tag on this busybox image is better than having an outdated image
+  labels:
+    app.kubernetes.io/instance: ocis
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: ocis
+    app.kubernetes.io/version: 7.1.4
+    helm.sh/chart: ocis-0.7.0
+  name: thumbnails-cleanup
+  namespace: owncloud
+spec:
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      parallelism: 1
+      template:
+        metadata:
+          labels:
+            app: thumbnails-cleanup
+            app.kubernetes.io/instance: ocis
+            app.kubernetes.io/managed-by: Helm
+            app.kubernetes.io/name: ocis
+            app.kubernetes.io/version: 7.1.4
+            helm.sh/chart: ocis-0.7.0
+        spec:
+          containers:
+            - command:
+                - /bin/sh
+                - /script/thumbnails-cleanup-script.sh
+              image: busybox:stable
+              imagePullPolicy: IfNotPresent
+              name: thumbnails-cleanup
+              resources: {}
+              securityContext:
+                readOnlyRootFilesystem: true
+                runAsGroup: 1000
+                runAsNonRoot: true
+                runAsUser: 1000
+              volumeMounts:
+                - mountPath: /var/lib/ocis
+                  name: thumbnails-data
+                - mountPath: /script
+                  name: script
+          nodeSelector: {}
+          restartPolicy: Never
+          securityContext:
+            fsGroup: 1000
+            fsGroupChangePolicy: OnRootMismatch
+          volumes:
+            - name: thumbnails-data
+              persistentVolumeClaim:
+                claimName: thumbnails-data
+            - configMap:
+                defaultMode: 320
+                name: thumbnails-cleanup-script-configmap
+              name: script
+      ttlSecondsAfterFinished: 86400
+  schedule: 0 * * * *
+  startingDeadlineSeconds: 600
+  successfulJobsHistoryLimit: 3
+  suspend: true
