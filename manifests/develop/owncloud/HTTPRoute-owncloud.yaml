@@ -11,6 +11,6 @@ spec:
       namespace: kube-system
   rules:
     - backendRefs:
-        - name: web
+        - name: proxy
           namespace: owncloud
-          port: 9100
+          port: 9200
