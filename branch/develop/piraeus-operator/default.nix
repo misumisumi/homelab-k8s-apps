@@ -58,12 +58,6 @@ in
           metadata.name = "piraeus-worker3-diskless";
           spec = {
             nodeSelector."kubernetes.io/hostname" = "piraeus-worker3";
-            properties = [
-              {
-                name = "AutoplaceTarget";
-                value = "no";
-              }
-            ];
           };
         };
       };

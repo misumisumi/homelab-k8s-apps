@@ -5,6 +5,3 @@ metadata:
 spec:
   nodeSelector:
     kubernetes.io/hostname: piraeus-worker3
-  properties:
-    - name: AutoplaceTarget
-      value: "no"
